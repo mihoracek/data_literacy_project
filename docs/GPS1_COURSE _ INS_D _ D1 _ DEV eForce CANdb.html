@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<!-- saved from url=(0051)https://eforce1.feld.cvut.cz/candb-dev/messages/692 -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>GPS1_COURSE | INS_D | D1 | DEV eForce CANdb</title>
+    
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link href="./GPS1_COURSE _ INS_D _ D1 _ DEV eForce CANdb_files/bootstrap.min.css" rel="stylesheet">
+    <link href="./GPS1_COURSE _ INS_D _ D1 _ DEV eForce CANdb_files/style.css" rel="stylesheet" type="text/css">
+    <link rel="icon" type="image/png" href="https://eforce1.feld.cvut.cz/candb-dev/static/favicon-16x16.png" sizes="16x16">
+
+    <link rel="stylesheet" href="./GPS1_COURSE _ INS_D _ D1 _ DEV eForce CANdb_files/all.css">
+
+    <script src="./GPS1_COURSE _ INS_D _ D1 _ DEV eForce CANdb_files/jquery.min.js"></script>
+    <script src="./GPS1_COURSE _ INS_D _ D1 _ DEV eForce CANdb_files/bootstrap.min.js"></script>
+    <script src="./GPS1_COURSE _ INS_D _ D1 _ DEV eForce CANdb_files/validator.min.js"></script>
+    <script src="./GPS1_COURSE _ INS_D _ D1 _ DEV eForce CANdb_files/script.js"></script>
+</head>
+<body class="">
+<div class="container">
+
+</div><div class="fixed-header"><div class="breadcrumb-container"><ol class="container breadcrumb"><li><strong><a href="https://eforce1.feld.cvut.cz/candb-dev/">CANdb testing-eforce1</a></strong></li><li><a href="https://eforce1.feld.cvut.cz/candb-dev/packages/101">D1</a></li><li><a href="https://eforce1.feld.cvut.cz/candb-dev/units/121">INS_D</a></li><li><a href="https://eforce1.feld.cvut.cz/candb-dev/messages/692">GPS1_COURSE</a></li><a href="https://eforce1.feld.cvut.cz/candb-dev/logout" class="pull-right" title="Log out"><span class="glyphicon glyphicon-off"></span></a></ol></div>    <div class="toolbar-container">
+    <div class="container">
+    <ul class="toolbar">
+        <li><a href="https://eforce1.feld.cvut.cz/candb-dev/messages/692/edit"><span class="glyphicon glyphicon-pencil"></span> Edit</a></li>
+        <!--<li><a href="#"><span class="glyphicon glyphicon-download-alt"></span>&ensp;Export</a></li>-->
+
+        <li><a href="https://eforce1.feld.cvut.cz/candb-dev/messages/692/drc"><span class="glyphicon glyphicon-ok-sign"></span> QC</a></li>                <li><a href="https://eforce1.feld.cvut.cz/candb-dev/messages/692/delete" onclick="return confirm(&#39;Delete message? Please make sure it is not referenced by anything.&#39;)"><strong class="text-danger"><span class="glyphicon glyphicon-trash"></span> Delete</strong></a></li>
+            </ul>
+    </div>
+    </div>
+    </div><div class="container">
+<form id="form_message" action="https://eforce1.feld.cvut.cz/candb-dev/messages/692" method="post" class="form-horizontal" data-toggle="validator" novalidate="true">
+<fieldset>
+<legend>Basic information</legend>
+<div class="form-group">
+    <label class="col-md-2 control-label">Name</label>
+    <div class="col-md-4"><div class="value">GPS1_COURSE</div></div>
+    <label class="col-md-2 control-label">Message ID</label>
+    <div class="col-md-4"><div class="value">0x173 <span class="text-muted">FSE08: POWERTRAIN—IMU—msg3</span></div></div>
+</div>
+<div class="form-group">
+    <label class="col-md-offset-6 col-md-2 control-label">Primary bus</label>
+    <div class="col-md-4"><div class="value">D1 / CAN3</div></div>
+</div>
+<div class="form-group">
+    <label class="col-md-offset-6 col-md-2 control-label">
+        Additional buses
+        <a tabindex="0" role="button" data-container="body" data-toggle="popover" data-trigger="focus" title="" data-content="Multiple additional buses can now be added, but this feature is not yet fully supported across the ecosystem:&lt;br&gt;✅ Bus statistics&lt;br&gt;❌ Code export&lt;br&gt;❌ DBC export&lt;br&gt;❌ JSON export" data-placement="bottom" data-html="true" data-original-title=""><span class="glyphicon glyphicon-question-sign"></span></a>
+    </label>
+    <div class="col-md-4"><table class="table table-condensed" id="messagebuses"><tbody><tr><td colspan="1" class="text-muted">—</td></tr></tbody></table><input type="hidden" name="messagebuses" value="[]"></div>
+</div>
+<div class="form-group">
+    <label class="col-md-2 control-label">Description</label>
+    <div class="col-md-10"><div class="value"><p>GPS1 raw course measurement</p></div></div>
+</div>
+<div class="row">
+    <div class="col-md-6">
+        <div class="form-group">
+            <label class="col-md-4 control-label">Sending period</label>
+            <div class="col-md-8"><div class="value">200 ms</div></div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="form-group">
+            <label class="col-md-4 control-label">Timeout</label>
+            <div class="col-md-8"><div class="value">1000 ms</div></div>
+        </div>
+    </div>
+</div>
+</fieldset>
+
+<fieldset>
+<legend>Message fields</legend>
+<table class="table table-condensed" id="messagefields"><thead><tr><th>Type</th><th>Size in bits</th><th>Name</th><th>Description</th><th>Unit<a tabindex="0" role="button" data-toggle="popover" data-trigger="focus" title="" data-content="For example:&lt;br /&gt;
+&amp;ndash; V, rad, m/s., m/s^2&lt;br /&gt;
+&amp;ndash; %, raw. Leave empty if N/A" data-html="true" data-original-title=""><span class="glyphicon glyphicon-question-sign"></span></a></th><th>Step<a tabindex="0" role="button" data-toggle="popover" data-trigger="focus" title="" data-content="Size of 1 LSB.&lt;br /&gt;
+&lt;br /&gt;
+Signal value is calculated as {Offset + Raw_Value * Step} {Unit}" data-html="true" data-original-title=""><span class="glyphicon glyphicon-question-sign"></span></a></th><th>Offset<a tabindex="0" role="button" data-toggle="popover" data-trigger="focus" title="" data-content="Signal offset.&lt;br /&gt;
+&lt;br /&gt;
+Signal value is calculated as {Offset + Raw_Value * Step} {Unit}" data-html="true" data-original-title=""><span class="glyphicon glyphicon-question-sign"></span></a></th><th>Min<a tabindex="0" role="button" data-toggle="popover" data-trigger="focus" title="" data-content="Minimum value of signal, in &lt;strong&gt;physical units&lt;/strong&gt;." data-html="true" data-original-title=""><span class="glyphicon glyphicon-question-sign"></span></a></th><th>Max<a tabindex="0" role="button" data-toggle="popover" data-trigger="focus" title="" data-content="Maximum value of signal, in &lt;strong&gt;physical units&lt;/strong&gt;." data-html="true" data-original-title=""><span class="glyphicon glyphicon-question-sign"></span></a></th><th>Array</th></tr></thead><tbody><tr><td><div class="value">uint</div></td><td><div class="value">16</div></td><td><div class="value">Course</div></td><td><div class="value"><p>True direction of motion over ground (0 to 360deg)</p></div></td><td><div class="value">°</div></td><td><div class="value">0.01</div></td><td><div class="value">0</div></td><td><div class="value"><i class="text-muted">N/A</i></div></td><td><div class="value"><i class="text-muted">N/A</i></div></td><td><div class="value">–</div></td></tr><tr><td><div class="value">uint</div></td><td><div class="value">16</div></td><td><div class="value">Course_Acc</div></td><td><div class="value"><p>1s course accuracy.</p></div></td><td><div class="value">°</div></td><td><div class="value">0.01</div></td><td><div class="value">0</div></td><td><div class="value"><i class="text-muted">N/A</i></div></td><td><div class="value"><i class="text-muted">N/A</i></div></td><td><div class="value">–</div></td></tr></tbody></table><input type="hidden" name="messagefields" value="[{&quot;id&quot;:4852,&quot;message_id&quot;:692,&quot;position&quot;:0,&quot;name&quot;:&quot;Course&quot;,&quot;description&quot;:&quot;True direction of motion over ground (0 to 360deg)&quot;,&quot;type&quot;:&quot;uint&quot;,&quot;bit_size&quot;:16,&quot;array_length&quot;:1,&quot;unit&quot;:&quot;\u00b0&quot;,&quot;factor&quot;:&quot;0.01&quot;,&quot;offset&quot;:&quot;0&quot;,&quot;min&quot;:&quot;&quot;,&quot;max&quot;:&quot;&quot;,&quot;ranges&quot;:[[[0,0,8],[1,0,8]]],&quot;start_bit&quot;:0},{&quot;id&quot;:4853,&quot;message_id&quot;:692,&quot;position&quot;:1,&quot;name&quot;:&quot;Course_Acc&quot;,&quot;description&quot;:&quot;1s course accuracy.&quot;,&quot;type&quot;:&quot;uint&quot;,&quot;bit_size&quot;:16,&quot;array_length&quot;:1,&quot;unit&quot;:&quot;\u00b0&quot;,&quot;factor&quot;:&quot;0.01&quot;,&quot;offset&quot;:&quot;0&quot;,&quot;min&quot;:&quot;&quot;,&quot;max&quot;:&quot;&quot;,&quot;ranges&quot;:[[[2,0,8],[3,0,8]]],&quot;start_bit&quot;:16}]"></fieldset>
+
+    <fieldset>
+    <legend>Message layout</legend>
+
+    <p class="text-right">
+        <select id="message-layout-display-select">
+            <option value="lsb">LSB first</option>
+            <option value="msb">MSB first</option>
+        </select>
+    </p>
+
+    <table class="table table-bordered message-layout-table">
+        <tbody><tr><th></th><th>0</th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th></tr><tr><th>byte 0</th><td colspan="8">Course<sub class="text-muted">0:7</sub></td></tr><tr><th>byte 1</th><td colspan="8">Course<sub class="text-muted">8:15</sub></td></tr><tr><th>byte 2</th><td colspan="8">Course_Acc<sub class="text-muted">0:7</sub></td></tr><tr><th>byte 3</th><td colspan="8">Course_Acc<sub class="text-muted">8:15</sub></td></tr>    </tbody></table>
+
+    <table class="table table-bordered message-layout-table hidden">
+        <tbody><tr><th></th><th>7</th><th>6</th><th>5</th><th>4</th><th>3</th><th>2</th><th>1</th><th>0</th></tr><tr><th>byte 0</th><td colspan="8">Course<sub class="text-muted">0:7</sub></td></tr><tr><th>byte 1</th><td colspan="8">Course<sub class="text-muted">8:15</sub></td></tr><tr><th>byte 2</th><td colspan="8">Course_Acc<sub class="text-muted">0:7</sub></td></tr><tr><th>byte 3</th><td colspan="8">Course_Acc<sub class="text-muted">8:15</sub></td></tr>    </tbody></table>
+    </fieldset>
+
+<div class="row">
+    <fieldset class="col-md-6">
+        <legend>Sent by</legend>
+        <ul class="list-unstyled">
+        <p class="text-center text-muted">No data.</p><br>        </ul>
+    </fieldset>
+    <fieldset class="col-md-6">
+        <legend>Received by</legend>
+        <ul class="list-unstyled">
+        <li><a href="https://eforce1.feld.cvut.cz/candb-dev/units/95">D1 / XVR</a></li>        </ul>
+    </fieldset>
+</div>
+    
+<div class="form-group">
+    <div class="col-md-offset-5 col-md-2"></div>
+</div>
+
+</form>
+<div class="text-center text-muted">Last changed by seredond on 2021-01-20 19:29:20.</div>
+<script>
+    function validate() {
+        var tableId = "messagefields";
+        var table = $(document.getElementById(tableId));
+
+        var rows = table.children('tbody').children();
+
+        // Hacky but eh...
+        for (var i = 0; i < rows.length - 1; i++) {
+            var arrayLength = $($(rows[i]).children()[9]).children('select');
+            var value = parseInt(arrayLength.val());
+
+            if (isNaN(value) || value < 1) {
+                alert("Array length must be set to 1!");
+                arrayLength.focus();
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    $(function() {
+        const frame_type_defs = {"FSE04":{"fields":[{"bits":3,"lsb":8,"options":["P0","P1","P2","P3","P4","P5","P6","P7"]},{"bits":4,"lsb":4,"options":["DEV1","DEV2","DEV3","DEV4","DEV5","DEV6","DEV7","DEV8","DEV9","DEV10","DEV11","DEV12","DEV13","DEV14","DEV15","DEV16"]},{"bits":4,"lsb":0,"options":["msg1","msg2","msg3","msg4","msg5","msg6","msg7","msg8","msg9","msg10","msg11","msg12","msg13","msg14","msg15","msg16"]}]},"FSE05":{"fields":[{"bits":3,"lsb":8,"options":["null","CAN-P","null","CAN","null","ERROR","STATUS","DURCHFALL"]},{"bits":4,"lsb":4,"options":["MCUFR","MCUFL","MCURR","MCURL","ECUP","VDCU","IMU","ICS","ECUWS","ECUA","ECUB","ECUS","ECUF","CCU","DTLG","DEBUG"]},{"bits":4,"lsb":0,"options":["msg0","msg1","msg2","msg3","msg4","msg5","msg6","msg7","msg8","msg9","msg10","msg11","msg12","msg13","msg14","msg15"]}]},"FSE06":{"fields":[{"bits":3,"lsb":8,"options":["null","CAN-P","null","CAN","null","ERROR","STATUS","null"]},{"bits":4,"lsb":4,"options":["MCF","MCR","null","null","ECUP","null","null","null","null","ECUA","ECUB","ECUS","ECUF","CCU","null","null"]},{"bits":4,"lsb":0,"options":["msg0","msg1","msg2","msg3","msg4","msg5","msg6","msg7","msg8","msg9","msg10","msg11","msg12","msg13","msg14","msg15"]}]},"FSE07":{"fields":[{"bits":3,"lsb":8,"options":["STATUS","POWERTRAIN","null","HIGH-PRIORITY","MEDIUM-PRIORITY","LOW-PRIORITY","null","null"]},{"bits":4,"lsb":4,"options":["MCF","MCR","null","null","ECUP","VDCU","IMU","ICS","null","ECUA","ECUB","ECUS","ECUF","null","DTLG","DEBUG"]},{"bits":4,"lsb":0,"options":["msg0","msg1","msg2","msg3","msg4","msg5","msg6","msg7","msg8","msg9","msg10","msg11","msg12","msg13","msg14","msg15"]}]},"FSE08":{"fields":[{"bits":3,"lsb":8,"options":["STATUS","POWERTRAIN","null","HIGH-PRIORITY","MEDIUM-PRIORITY","LOW-PRIORITY","null","null"]},{"bits":4,"lsb":4,"options":["MCF","MCR","null","null","PDL","VDCU","IMU","IMU","null","AMS","FSB","STRW","DSH","TELEM","DTLG","DEBUG"]},{"bits":4,"lsb":0,"options":["msg0","msg1","msg2","msg3","msg4","msg5","msg6","msg7","msg8","msg9","msg10","msg11","msg12","msg13","msg14","msg15"]}]},"FSE09":{"fields":[{"bits":3,"lsb":8,"options":["STATUS","POWERTRAIN","null","HIGH-PRIORITY","MEDIUM-PRIORITY","LOW-PRIORITY","null","null"]},{"bits":4,"lsb":4,"options":["MCF","MCR","null","null","PDL","VDCU","IMU","IMU","null","AMS","FSB","STRW","DSH","TELEM","DTLG","DEBUG"]},{"bits":4,"lsb":0,"options":["msg0","msg1","msg2","msg3","msg4","msg5","msg6","msg7","msg8","msg9","msg10","msg11","msg12","msg13","msg14","msg15"]}]},"FSE11":{"fields":[{"bits":3,"lsb":8,"options":["STATUS","POWERTRAIN","null","HIGH-PRIORITY","MEDIUM-PRIORITY","LOW-PRIORITY","null","null"]},{"bits":4,"lsb":4,"options":["null","null","null","DRT","PDL","VDCU","null","null","null","AMS","FSB","STRW","DSH","MBOX","null","DEBUG"]},{"bits":4,"lsb":0,"options":["msg0","msg1","msg2","msg3","msg4","msg5","msg6","msg7","msg8","msg9","msg10","msg11","msg12","msg13","msg14","msg15"]}]}};
+can_id_init($('#messagecan_id'), frame_type_defs);
+
+        var formId = "form_message";
+        $(document.getElementById(formId)).submit(function(e) {
+            if (!validate())
+                e.preventDefault();
+        });
+
+        $('#message-layout-display-select').change(function() {
+            $('.message-layout-table').toggleClass('hidden');
+        });
+    });
+</script>
+
+
+<hr>
+<div class="small text-center text-muted">
+    <p class="pull-right">CANdb HEAD © 2016-2020 eForce FEE Prague Formula</p>
+    <p class="pull-left">
+        Rendered in 241.4 ms.
+
+    Logged in as <code>mihoracek</code>.    </p>
+</div>
+
+</div>
+
+
+</body></html>
