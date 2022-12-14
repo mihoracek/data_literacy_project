@@ -1,4 +1,4 @@
-__pycache__/**
+**/__pycache__/**
 
 # Do not track LaTeX build files
 *.aux
