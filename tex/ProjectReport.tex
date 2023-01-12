@@ -27,7 +27,9 @@
 \usepackage{microtype}      % microtypography
 \usepackage{xcolor}         % colors
 
-\title{Predicting Acceptance Probabilities\\ from Trivial Features}
+\newcommand{\todo}[1]{\textcolor{red}{\textbf{#1}}}
+
+\title{Is lottery fair?}
 
 % The \author macro works with any number of authors. There are two commands
 % used to separate the names and addresses of multiple authors: \And and \AND.
@@ -38,13 +40,13 @@
 % \AND instead of \And before the third author name.
 
 \author{%
-  Guy Moss\\
-  Matrikelnummer 123456789\\
-  \texttt{dummymail1@uni-tuebingen.de} \\
+  Michal Horáček\\
+  Matrikelnummer 6373382\\
+  \texttt{michal.horacek@student.uni-tuebingen.de} \\
   \And
-  Jakob Macke\\
-  Matrikelnummer 987654321\\
-  \texttt{dummymail2@uni-tuebingen.de} \\
+  Carson Zhang\\
+  Matrikelnummer 6384481\\
+  \texttt{carson.zhang@student.uni-tuebingen.de} \\
 }
 
 \begin{document}
@@ -52,9 +54,30 @@
 \maketitle
 
 \begin{abstract}
-  \emph{[Use this abstract to briefly explain what you are planning to do. Here is an example:]} We are planning to use the collection of \href{https://openreview-py.readthedocs.io/en/latest/getting_data.html}{all papers ever \emph{submitted} to the ICLR conference} to see how well paper acceptance can be predicted from trivial features, such as the paper's overall length, number of words or number of figures. We are planning to use logistic regression for this purpose.
+    We investigate lottery.
 \end{abstract}
 
-You can find a detailed example and instructions on how to use this style file in the attached \texttt{neurip\_2021.tex} file. This includes instructions for how to lay out citations.
+\section{Introduction}
+\label{sec:introduction}
+\input{introduction.tex}
+
+\section{Dataset}
+\label{sec:dataset}
+\input{dataset.tex}
+
+\section{Methods}
+\label{sec:methods}
+\input{methods.tex}
+
+\section{Results}
+\label{sec:results}
+\input{results.tex}
+
+\section{Discussion}
+\label{sec:discussion}
+\input{discussion.tex}
+
+\bibliography{sources.bib}
+\bibliographystyle{unsrt}
 
 \end{document}
