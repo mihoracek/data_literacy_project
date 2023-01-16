@@ -1,5 +1,9 @@
-**/__pycache__/**
+**/__pycache__/
+.vscode/
 *.o
+**/*.cmake
+**/CMakeCache.txt
+**/CMakeFiles/
 
 # Do not track LaTeX build files
 *.aux
