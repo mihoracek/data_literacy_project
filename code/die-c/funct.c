@@ -1,4 +1,3 @@
-
 #include "header.h"
 #include "macro.h"
 
@@ -62,7 +61,8 @@ uniform uni(char *filename)
   }
 
   if( isopen=='n' ){
-    if( (infile=fopen(filename, "r"))==NULL ){
+    infile=fopen(filename, "rb");
+    if(infile == NULL){
       printf("can't open file %s!!!\n", filename);
       exit(1);
     }

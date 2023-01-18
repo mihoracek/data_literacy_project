@@ -5,6 +5,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
+#include <string.h>
 
 #define DIM       4096
 #define UNIMAX    4294967296.   /*pow(2,32)*/

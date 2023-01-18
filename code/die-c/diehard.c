@@ -2,6 +2,20 @@
 #include "header.h"
 #include "macro.h"
 
+void bday(char *filename);
+void operm5(char *filename);
+void binrnk(char *filename, char *test);
+void bitst(char *filename);
+void monky(char *filename, char *test);
+void cnt1s(char *filename, char *test);
+void park(char *filename);
+void mindist(char *filename);
+void sphere(char *filename);
+void squeez(char *filename);
+void osum(char *filename);
+void runtest(char *filename);
+void craptest(char *filename);
+
 void do_test(char *fn)
 {
   int i, status[16], tmp, id, flag=0, order=0;
@@ -86,7 +100,7 @@ void do_test(char *fn)
 void diehard()
 {
 
-  char c, fn[100];
+  // char c, fn[100];
 
 
   puts("\n\t\t\t\tNOTE\n");
@@ -109,15 +123,19 @@ void diehard()
   puts("\tThis must be a form=\"unformatted\",access=\"direct\" binary");
   puts("\tfile of about 10-12 million bytes. Enter file name: \n");
 
-  while((c=getchar())==' ') ;
+  // while((c=getchar())==' ') ;
 
-  if(c=='\n'){
-    return;
-  }
+  // if(c=='\n'){
+  //   return;
+  // }
 
-  ungetc(c, stdin);
+  // ungetc(c, stdin);
 
-  fgets(fn, sizeof(fn), stdin);
+  // fgets(fn, sizeof(fn), stdin);
+  puts("\tThe legacy input system doesn't work and I am afraid to change it.");
+  puts("\tProbably because it leaves whole lot of garbage after the last\n");
+  puts("\tuser input character.");
+  char *fn = "../c++onvert2bin/bytes.bin";
 
   puts("\n\t\tHERE ARE YOUR CHOICES:\n");
   puts("\t\t1   Birthday Spacings");
@@ -149,9 +167,9 @@ void diehard()
 }
 
 
-main()
+int main()
 {
   diehard();
 
-   return;
+   return 0;
 }
