@@ -104,6 +104,169 @@ def read_texas_lotto():
 
     return csv.to_numpy().flatten()
 
+def read_italy_lotto():
+    info = ["Date", "City"]
+    draw = ["Number 1", "Number 2", "Number 3", "Number 4", "Number 5"]
+
+    csv = pd.read_csv(
+        "data/Italy_Lotto.csv",
+        sep=';',
+        header=0,
+        names=info + draw,
+        usecols=draw
+    )
+
+    return csv.to_numpy().flatten()
+
+def read_italy_lotto_super():
+    info = ["Date", "No. in year"]
+    draw = ["Number 1", "Number 2", "Number 3", "Number 4", "Number 5", "Number 6", "Jolly number"]
+
+    csv = pd.read_csv(
+        "data/Italy_Lotto_Super.csv",
+        sep=';',
+        header=0,
+        names=info + draw + ["Superstar number"],
+        usecols=draw
+    )
+
+    return csv.to_numpy().flatten()
+
+def read_italy_lotto_10e():
+    info = ["Date", "No. in year"]
+    draw = [f"Number {n+1}" for n in range(20)]
+    bonus = ["Bonus 1", "Bonus 2"]
+
+    csv = pd.read_csv(
+        "data/Italy_Lotto_10e.csv",
+        sep=';',
+        header=0,
+        names=info + draw + bonus,
+        usecols=draw
+    )
+
+    return csv.to_numpy().flatten()
+
+def read_israel_lotto():
+    info = ["Game", "Date"]
+    draw = [f"Number {n+1}" for n in range(6)]
+
+    csv = pd.read_csv(
+        "data/Israel_Lotto.csv",
+        sep=',',
+        header=0,
+        names=info + draw,
+        usecols=draw
+    )
+
+    return csv.to_numpy().flatten()
+
+def read_australia_monday_lotto():
+    info = ["Draw number", "Date"]
+    draw = [f"Number {n+1}" for n in range(8)]
+    winnings = [f"W{n}" for n in range(24)]
+
+    csv = pd.read_csv(
+        "data/Australia_Lotto_mondays.csv",
+        sep=',',
+        header=0,
+        names=info + draw + winnings,
+        usecols=draw
+    )
+
+    return csv.to_numpy().flatten()
+
+def read_australia_wednesday_lotto():
+    info = ["Draw number", "Date"]
+    draw = [f"Number {n+1}" for n in range(8)]
+    winnings = [f"W{n}" for n in range(24)]
+
+    csv = pd.read_csv(
+        "data/Australia_Lotto_wednesdays.csv",
+        sep=',',
+        header=0,
+        names=info + draw + winnings,
+        usecols=draw
+    )
+
+    return csv.to_numpy().flatten()
+
+def read_australia_saturdays_lotto():
+    info = ["Draw number", "Date"]
+    draw = [f"Number {n+1}" for n in range(8)]
+    winnings = [f"W{n}" for n in range(24)]
+
+    csv = pd.read_csv(
+        "data/Australia_Lotto_saturdays.csv",
+        sep=',',
+        header=0,
+        names=info + draw + winnings,
+        usecols=draw
+    )
+
+    return csv.to_numpy().flatten()
+
+def read_australia_oz_lotto():
+    info = ["Draw number", "Date"]
+    draw = [f"Number {n+1}" for n in range(6)]
+    bonus = ["Bonus 1", "Bonus 2"]
+    winnings = [f"W{n}" for n in range(28)]
+
+    csv = pd.read_csv(
+        "data/Australia_Lotto_oz.csv",
+        sep=',',
+        header=0,
+        names=info + draw + ["Number 7"] + bonus + ["Bonus 3"] + winnings,
+        usecols=draw + bonus    # Number 7 and Bonus got added later, not for all draws
+    )
+
+    return csv.to_numpy().flatten()
+
+def read_australia_powerball():
+    info = ["Draw number", "Date"]
+    draw = [f"Number {n+1}" for n in range(5)]
+    ignore = ["Number 6", "Number 7", "Powerball"]
+    winnings = [f"W{n}" for n in range(36)]
+
+    csv = pd.read_csv(
+        "data/Australia_Powerball.csv",
+        sep=',',
+        header=0,
+        names=info + draw + ignore + winnings,
+        usecols=draw
+    )
+
+    return csv.to_numpy().flatten()
+
+def read_australia_set4life():
+    info = ["Draw number", "Date"]
+    draw = [f"Number {n+1}" for n in range(7)]
+    bonus = ["Bonus 1", "Bonus 2"]
+    winnings = [f"W{n}" for n in range(32)]
+
+    csv = pd.read_csv(
+        "data/Australia_Set4Life.csv",
+        sep=',',
+        header=0,
+        names=info + draw + ["Number 8"] + bonus + winnings,
+        usecols=draw + bonus
+    )
+
+    return csv.to_numpy().flatten()
+
+def read_canada_lotto():
+    draw = [f"Number {n+1}" for n in range(7)]
+
+    csv = pd.read_csv(
+        "data/Canada_Lotto_649.csv",
+        sep=',',
+        header=0,
+        names=["Date"] + draw + ["Stupid trailing comma"],
+        usecols=draw
+    )
+
+    return csv.to_numpy().flatten()
+
 readers = [
     read_lotto,
     read_eurojackpot,
@@ -111,7 +274,18 @@ readers = [
     read_ny_lotto,
     read_uk_lotto,
     read_uk_lotto_tuesday,
-    read_texas_lotto
+    read_texas_lotto,
+    read_italy_lotto,
+    read_italy_lotto_super,
+    read_italy_lotto_10e,
+    read_israel_lotto,
+    read_australia_monday_lotto,
+    read_australia_wednesday_lotto,
+    read_australia_saturdays_lotto,
+    read_australia_oz_lotto,
+    read_australia_powerball,
+    read_australia_set4life,
+    read_canada_lotto
 ]
 
 with open("data/lottery_numbers.txt", "w") as out:
