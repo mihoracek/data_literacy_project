@@ -22,19 +22,36 @@ def read_eurojackpot():
         names=lottery_draw + winnings,
         usecols=lottery_draw
     )
-    numbers = [
-        [a, b, c, d, e] for a, b, c, d, e in zip(
-            csv["Number 1"], csv["Number 2"], csv["Number 3"], csv["Number 4"], csv["Number 5"]
-        )
+    
+    return csv.to_numpy().flatten()
+
+def read_sportka():
+    time_info = [
+        "Date", "Year", "Week", "Day"
+    ]
+    draw = [
+        f"d{d+1}n{n+1}" for n in range(7) for d in range(2)
     ]
 
-    return reduce(lambda a, b: a + b, numbers)
+    csv = pd.read_csv(
+        "data/sportka.csv",
+        sep=';',
+        header=0,
+        names=time_info + draw,
+        usecols=draw
+    )
+    
+    return csv.to_numpy().flatten()
+    
 
 lotto_numbers = read_lotto()
 eurojackpot_numbers = read_eurojackpot()
+sportka_numbers = read_sportka()
 
-with open("lotto_numbers.txt", "w") as out:
+with open("data/lottery_numbers.txt", "w") as out:
     for number in lotto_numbers:
         print(number, file=out)
     for number in eurojackpot_numbers:
+        print(number, file=out)
+    for number in sportka_numbers:
         print(number, file=out)
