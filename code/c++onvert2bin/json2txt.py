@@ -9,17 +9,17 @@ def read_lotto():
 
 def read_eurojackpot():
     lottery_draw = [
-        "Date", "Number 1", "Number 2", "Number 3", "Number 4", "Number 5", "Eurozahl 1", "Eurozahl 2"
+        "Number 1", "Number 2", "Number 3", "Number 4", "Number 5", "Eurozahl 1", "Eurozahl 2"
     ]
     winnings = [    # Lottery prize in the draw and no. of winners and their winnings for each of 12 categories
-        "Prize"] + [f"{i+1}" for i in range(12 * 2)
+        f"{i+1}" for i in range(12 * 2)
     ]
 
     csv = pd.read_csv(
         "data/EJ_ab_2018.csv",
         sep=';',
         header=0,
-        names=lottery_draw + winnings,
+        names=["Date"] + lottery_draw + ["Prize"] + winnings,
         usecols=lottery_draw
     )
     

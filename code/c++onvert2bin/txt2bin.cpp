@@ -10,6 +10,10 @@ int main(int argc, char **argv) {
     }
 
     std::ifstream source_file{argv[1], std::ios::in};
+    if(!source_file.good()) {
+        std::cout << "Error in opening the source file " << argv[1] << "\n";
+        return 1;
+    }
 
     uint32_t random_number;
     std::vector<uint32_t> numbers;
@@ -17,10 +21,15 @@ int main(int argc, char **argv) {
         uint32_t sanitized = (random_number - 1) & 0b11111;
         numbers.push_back(sanitized);
     }
+    std::cout << "Loaded " << numbers.size() << " numbers from source file " << argv[1] << ".\n";
 
     source_file.close();
 
-    std::ofstream output_file{argv[2], std::ios::out | std::ios::binary | std::ios::app};
+    std::ofstream output_file{argv[2], std::ios::out | std::ios::binary | std::ios::trunc};
+    if(!output_file.good()) {
+        std::cout << "Error in opening the output file " << argv[2] << "\n";
+        return 1;
+    }
 
     int valid_bits = 0;
     uint32_t buffer = 0;
