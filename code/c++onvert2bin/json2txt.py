@@ -267,6 +267,164 @@ def read_canada_lotto():
 
     return csv.to_numpy().flatten()
 
+def read_ny_cash4life():
+    columns = ["Date", "Draw", "Cash Ball"]
+
+    csv = pd.read_csv(
+        "data/NY_Cash4Life.csv",
+        sep=',',
+        header=0,
+        names=columns,
+        usecols=["Draw"]
+    )
+
+    numbers = [
+        [int(n) for n in row.split()] for row in csv["Draw"]
+    ]
+
+    return reduce(lambda a, b: a + b, numbers)
+
+def read_ny_mega_millions():
+    columns = ["Date", "Draw", "Mega Ball", "Multiplier"]
+
+    csv = pd.read_csv(
+        "data/NY_Mega_Millions.csv",
+        sep=',',
+        header=0,
+        names=columns,
+        usecols=["Draw"]
+    )
+
+    numbers = [
+        [int(n) for n in row.split()] for row in csv["Draw"]
+    ]
+
+    return reduce(lambda a, b: a + b, numbers)
+
+def read_ny_pick10():
+    columns = ["Date", "Draw"]
+
+    csv = pd.read_csv(
+        "data/NY_Pick10.csv",
+        sep=',',
+        header=0,
+        names=columns,
+        usecols=["Draw"]
+    )
+
+    numbers = [
+        [int(n) for n in row.split()] for row in csv["Draw"]
+    ]
+
+    return reduce(lambda a, b: a + b, numbers)
+
+def read_ny_powerball():
+    columns = ["Date", "Draw", "Multiplier"]
+
+    csv = pd.read_csv(
+        "data/NY_Powerball.csv",
+        sep=',',
+        header=0,
+        names=columns,
+        usecols=["Draw"]
+    )
+
+    numbers = [
+        [int(n) for n in row.split()] for row in csv["Draw"]
+    ]
+
+    return reduce(lambda a, b: a + b, numbers)
+
+def read_ny_quick_draw():
+    columns = ["Date", "Draw No.", "Draw Time", "Draw", "Extra"]
+
+    csv = pd.read_csv(
+        "data/NY_Quick_Draw.csv",
+        sep=',',
+        header=0,
+        names=columns,
+        usecols=["Draw"]
+    )
+
+    numbers = [
+        [int(n) for n in row.split()] for row in csv["Draw"]
+    ]
+
+    return reduce(lambda a, b: a + b, numbers)
+
+def read_ny_take5():
+    columns = ["Date", "Evening Draw", "Evening Bonus", "Midday Draw", "Midday Bonus"]
+
+    csv = pd.read_csv(
+        "data/NY_Take5.csv",
+        sep=',',
+        header=0,
+        names=columns,
+        usecols=["Evening Draw", "Midday Draw"]
+    )
+
+    numbers = [
+        [int(n) for n in row.split()] for row in csv["Evening Draw"]
+    ]
+
+    return reduce(lambda a, b: a + b, numbers)
+
+def read_poland_lotto():
+    info = ["Index", "Date"]
+    draw = [f"Number {n+1}" for n in range(6)]
+
+    csv = pd.read_csv(
+        "data/Poland_Lotto.csv",
+        sep=',',
+        header=None,
+        names=info + draw,
+        usecols=draw
+    )
+
+    return csv.to_numpy().flatten()
+
+def read_poland_lotto_plus():
+    info = ["Index", "Date"]
+    draw = [f"Number {n+1}" for n in range(6)]
+
+    csv = pd.read_csv(
+        "data/Poland_Lotto_Plus.csv",
+        sep=',',
+        header=None,
+        names=info + draw,
+        usecols=draw
+    )
+
+    return csv.to_numpy().flatten()
+
+def read_poland_lotto_mini():
+    info = ["Index", "Date"]
+    draw = [f"Number {n+1}" for n in range(5)]
+
+    csv = pd.read_csv(
+        "data/Poland_Lotto_Mini.csv",
+        sep=',',
+        header=None,
+        names=info + draw,
+        usecols=draw
+    )
+
+    return csv.to_numpy().flatten()
+
+def read_poland_multi():
+    info = ["Index", "Date", "Time"]
+    draw = [f"Number {n+1}" for n in range(20)]
+
+    csv = pd.read_csv(
+        "data/Poland_Multi.csv",
+        sep=',',
+        header=None,
+        names=info + draw + ["Bonus"],
+        usecols=draw
+    )
+
+    return csv.to_numpy().flatten()
+
 readers = [
     read_lotto,
     read_eurojackpot,
@@ -285,7 +443,17 @@ readers = [
     read_australia_oz_lotto,
     read_australia_powerball,
     read_australia_set4life,
-    read_canada_lotto
+    read_canada_lotto,
+    read_ny_cash4life,
+    read_ny_mega_millions,
+    read_ny_pick10,
+    read_ny_powerball,
+    read_ny_quick_draw,
+    read_ny_take5,
+    read_poland_lotto,
+    read_poland_lotto_plus,
+    read_poland_lotto_mini,
+    read_poland_multi
 ]
 
 with open("data/lottery_numbers.txt", "w") as out:
