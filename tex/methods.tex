@@ -1,4 +1,28 @@
-In the first part we test whether the drawn numbers come from a uniform distribution $\mathcal{U}(1, 50)$. To investigate this,
-we use Pearson's $\chi^2$ test and the Kolmogorov-Smirnov test.
+\subsection{Testing uniformity}
+
+We conducted the following hypothesis test:
+$H_0$: each lottery number is drawn with equal probability
+$H_A$: the lottery numbers are drawn with unequal probabilities: some numbers are more likely to appear than others
+
+We used Pearson's $\chi^2$ test, a commonly recommended test for the probabilities of observing categorical data. \todo{Motivate the choice of this particular test.}
+
+In particular, we model the lottery drawing with a multivariate hypergeometric distribution. \todo{Give a more detailed explanation of this distribution, and argue that it's appropriate.}
+
+More formally, the hypothesis test can be stated in the following way:
+$H_0$: the lottery drawing follows a multivariate hypergeometric distribution with parameters: \todo{State the parameters}
+$H_A$: the lottery drawing does not follow a multivariate hypergeometric distribution
+
+Under $H_0$, we compute the following expected frequencies of each lottery number: \todo{Create a table with the expected frequencies. They will all be the same, so perhaps this can just be stated in a sentence.}
+
+The $\chi^2$ statistic is a function of how much our actual observed frequencies deviate from these expected frequencies. 
+Larger deviations result in higher values of the $\chi^2$ statistic and therefore lower p-values.
+
+\todo{Justify the choice of degrees of freedom.}
+
+\todo{Decide whether we should spell out the computation of the p-value, as if we computed it manually.}
+
+\todo{Report the value of the $\chi^2$ statistic and the p-value.}
+
+\subsection{Diehard tests}
 
 For more information about the Diehard battery of tests we refer the reader to the original paper~\cite{currentRNG}.
