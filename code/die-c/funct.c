@@ -46,13 +46,16 @@ uniform uni(char *filename)
   static counter count=DIM;
   static uniform uniran[DIM];
 
+  static counter bytes_read;
+
  /* uniform fortran[1]; */ 
 
   if( strcmp(filename, "close")==0 ){
     fclose(infile);
     isopen='n';
     count=DIM;
-
+    printf("\n========================================\n");
+    printf("Read %d bytes from the file in total\n\n", bytes_read);
     return 0;
   }
     
@@ -66,13 +69,21 @@ uniform uni(char *filename)
       printf("can't open file %s!!!\n", filename);
       exit(1);
     }
-
+    bytes_read = 0;
     isopen='y';
 /*fread( fortran, sizeof(uniform), 1 , infile );*/ /*for binary file written*/
                                                    /*by fortran program*/
   }
 
   fread( uniran, sizeof(uniform), DIM , infile );
+
+  static counter info_index = 0;
+  static counter milestones[] = {16383UL, 65535UL, 262143UL, 488447UL};
+  if(info_index < 4 && bytes_read < milestones[info_index] && bytes_read + sizeof(uniform) * DIM > milestones[info_index]) {
+    printf("Read %d bytes from the file\n", milestones[info_index]);
+    info_index++;
+  }
+  bytes_read += sizeof(uniform) * DIM;  
 
   count=0;
 /*fread( fortran, sizeof(uniform), 1 , infile );

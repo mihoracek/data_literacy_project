@@ -135,7 +135,7 @@ void diehard()
   puts("\tThe legacy input system doesn't work and I am afraid to change it.");
   puts("\tProbably because it leaves whole lot of garbage after the last\n");
   puts("\tuser input character.");
-  char *fn = "../c++onvert2bin/bytes.bin";
+  char *fn = "../../data/bytes.bin";
 
   puts("\n\t\tHERE ARE YOUR CHOICES:\n");
   puts("\t\t1   Birthday Spacings");
