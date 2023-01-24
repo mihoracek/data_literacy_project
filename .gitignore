@@ -4,6 +4,7 @@
 **/*.cmake
 **/CMakeCache.txt
 **/CMakeFiles/
+**/.DS_Store
 
 # Do not track LaTeX build files
 *.aux
