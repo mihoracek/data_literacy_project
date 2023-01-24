@@ -16,7 +16,7 @@ def read_eurojackpot():
     ]
 
     csv = pd.read_csv(
-        "data/EJ_ab_2018.csv",
+        "data/Eurojackpot.csv",
         sep=';',
         header=0,
         names=["Date"] + lottery_draw + ["Prize"] + winnings,
@@ -34,7 +34,7 @@ def read_sportka():
     ]
 
     csv = pd.read_csv(
-        "data/sportka.csv",
+        "data/Czech_Republic_Sportka.csv",
         sep=';',
         header=0,
         names=time_info + draw,
@@ -301,11 +301,11 @@ def read_ny_mega_millions():
 
     return reduce(lambda a, b: a + b, numbers)
 
-def read_ny_pick10():
+def read_ny_pick_10():
     columns = ["Date", "Draw"]
 
     csv = pd.read_csv(
-        "data/NY_Pick10.csv",
+        "data/NY_Pick_10.csv",
         sep=',',
         header=0,
         names=columns,
@@ -352,11 +352,11 @@ def read_ny_quick_draw():
 
     return reduce(lambda a, b: a + b, numbers)
 
-def read_ny_take5():
+def read_ny_take_5():
     columns = ["Date", "Evening Draw", "Evening Bonus", "Midday Draw", "Midday Bonus"]
 
     csv = pd.read_csv(
-        "data/NY_Take5.csv",
+        "data/NY_Take_5.csv",
         sep=',',
         header=0,
         names=columns,
@@ -425,6 +425,184 @@ def read_poland_multi():
 
     return csv.to_numpy().flatten()
 
+def read_euromillions():
+    draw = [f"Number {n+1}" for n in range(5)]
+    bonus = ["Star 1", "Star 2"]
+
+    csv = pd.read_csv(
+        "data/Euromillions.csv",
+        sep=',',
+        header=0,
+        names=["Date"] + draw + bonus,
+        usecols=draw
+    )
+
+    return csv.to_numpy().flatten()
+
+def read_belgium_lotto():
+    draw = [f"Number {n+1}" for n in range(6)]
+
+    csv = pd.read_csv(
+        "data/Belgium_Lotto.csv",
+        sep=',',
+        header=0,
+        names=["Date"] + draw + ["Bonus"],
+        usecols=draw
+    )
+
+    return csv.to_numpy().flatten()
+
+def read_belgium_keno():
+    draw = [f"Number {n+1}" for n in range(20)]
+
+    csv = pd.read_csv(
+        "data/Belgium_Keno.csv",
+        sep=',',
+        header=0,
+        names=["Date"] + draw,
+        usecols=draw
+    )
+
+    return csv.to_numpy().flatten()
+
+def read_slovakia_keno10():
+    info = ["Index", "Date", "Week"]
+    draw = [f"Number {n+1}" for n in range(20)]
+
+    csv = pd.read_csv(
+        "data/Slovakia_Keno10.csv",
+        sep=';',
+        header=0,
+        names=info + draw,
+        usecols=draw
+    )
+
+    return csv.to_numpy().flatten()
+
+def read_slovakia_keno_10():
+    info = ["Index", "Date", "Week"]
+    draw = [f"Number {n+1}" for n in range(20)]
+
+    csv = pd.read_csv(
+        "data/Slovakia_Keno_10.csv",
+        sep=';',
+        header=0,
+        names=info + draw,
+        usecols=draw
+    )
+
+    return csv.to_numpy().flatten()
+
+def read_slovakia_lotto1():
+    info = ["Index", "Date", "Week"]
+    draw = [f"Number {n+1}" for n in range(6)] + ["Bonus"]
+    winnings = [f"Win Info {n+1}" for n in range(20)]
+
+    csv = pd.read_csv(
+        "data/Slovakia_Lotto1.csv",
+        sep=';',
+        header=0,
+        names=info + draw + winnings,
+        usecols=draw
+    )
+
+    return csv.to_numpy().flatten()
+
+def read_slovakia_lotto2():
+    info = ["Index", "Date", "Week"]
+    draw = [f"Number {n+1}" for n in range(6)] + ["Bonus"]
+    winnings = [f"Win Info {n+1}" for n in range(19)]
+
+    csv = pd.read_csv(
+        "data/Slovakia_Lotto2.csv",
+        sep=';',
+        header=0,
+        names=info + draw + winnings,
+        usecols=draw
+    )
+
+    return csv.to_numpy().flatten()
+
+def read_slovakia_lotto_535():
+    info = ["Index", "Date", "Week"]
+    draw = [f"Number {n+1}" for n in range(5)]
+    winnings = [f"Win Info {n+1}" for n in range(12)]
+
+    csv = pd.read_csv(
+        "data/Slovakia_Lotto_535.csv",
+        sep=';',
+        header=0,
+        names=info + draw + winnings,
+        usecols=draw
+    )
+
+    return csv.to_numpy().flatten()
+
+def read_nh_keno_603():
+    info = ["Name", "Date", "Time", "Draw No."]
+    draw = ["Draw"]
+
+    csv = pd.read_csv(
+        "data/NH_Keno_603.csv",
+        sep=',',
+        header=0,
+        names=info + draw + ["Bonus"] + ["Stupid trailing comma"],
+        usecols=draw
+    )
+
+    numbers = [
+        [int(n) for n in row.split("-")] for row in csv["Draw"]
+    ]
+
+    return reduce(lambda a, b: a + b, numbers)
+
+def read_slovakia_sportka1():
+    info = ["Index", "Date", "Week"]
+    draw = [f"Number {n+1}" for n in range(6)]
+    winnings = [f"Win Info {n+1}" for n in range(20)]
+
+    csv = pd.read_csv(
+        "data/Slovakia_Sportka1.csv",
+        sep=';',
+        header=0,
+        names=info + draw + ["Bonus"] + winnings,
+        usecols=draw
+    )
+
+    return csv.to_numpy().flatten()
+
+def read_slovakia_sportka2():
+    info = ["Index", "Date", "Week"]
+    draw = [f"Number {n+1}" for n in range(6)]
+    winnings = [f"Win Info {n+1}" for n in range(19)]
+
+    csv = pd.read_csv(
+        "data/Slovakia_Sportka2.csv",
+        sep=';',
+        header=0,
+        names=info + draw + ["Bonus"] + winnings,
+        usecols=draw
+    )
+
+    return csv.to_numpy().flatten()
+
+def read_dc_keno():
+    info = ["Date", "Draw No."]
+
+    csv = pd.read_csv(
+        "data/DC_Keno.csv",
+        sep=',',
+        header=0,
+        names=info + ["Draw"],
+        usecols=["Draw"]
+    )
+
+    numbers = [
+        [int(n) for n in row.split()] for row in csv["Draw"]
+    ]
+
+    return reduce(lambda a, b: a + b, numbers)
+
 readers = [
     read_lotto,
     read_eurojackpot,
@@ -446,14 +624,25 @@ readers = [
     read_canada_lotto,
     read_ny_cash4life,
     read_ny_mega_millions,
-    read_ny_pick10,
+    read_ny_pick_10,
     read_ny_powerball,
     read_ny_quick_draw,
-    read_ny_take5,
+    read_ny_take_5,
     read_poland_lotto,
     read_poland_lotto_plus,
     read_poland_lotto_mini,
-    read_poland_multi
+    read_poland_multi,
+    read_euromillions,
+    read_belgium_lotto,
+    read_belgium_keno,
+    read_slovakia_keno_10,
+    read_slovakia_lotto1,
+    read_slovakia_lotto2,
+    read_slovakia_lotto_535,
+    read_nh_keno_603,
+    read_slovakia_sportka1,
+    read_slovakia_sportka2,
+    read_dc_keno
 ]
 
 with open("data/lottery_numbers.txt", "w") as out:
