@@ -15,15 +15,74 @@ matplotlib.rcParams.update({
     "pgf.texsystem": "pdflatex",
     "font.family": "serif",
     "text.usetex": True,
-    "pgf.rcfonts": False,
-    "figure.figsize": (12, 6),
-    "axes.spines.bottom": True,
-    "axes.spines.left": True,
-    "axes.spines.right": False,
-    "axes.spines.top": False
+    "pgf.rcfonts": False
 })
 
+def plot_dataset_composition():
+    matplotlib.rcParams.update({
+        "axes.spines.bottom": False,
+        "axes.spines.left": False,
+        "axes.spines.right": False,
+        "axes.spines.top": False
+    })
+
+    dataset_size = {
+        "Italy": 324.6,
+        "Poland": 230.4,
+        "USA": 229.5,
+        "Australia": 45.4,
+        "Czech Republic": 28.3,
+        "Germany": 17.5,
+        "Israel": 15.2,
+        "United Kingdom": 13.5,
+        "Canada": 12.9,
+        "Eurojackpot": 1.3
+    }
+
+    labels = list(dataset_size.keys())
+    data = np.array(list(dataset_size.values()))
+    cummulative_data = np.cumsum(data)    
+    category_colors = plt.colormaps['RdYlGn'](
+        np.linspace(0.85, 0.15, len(data))
+    )
+
+    fig, ax = plt.subplots(figsize=(12, 1.5))
+    fig.subplots_adjust(top=1, bottom=0.33)
+    ax.yaxis.set_visible(False)
+    ax.xaxis.set_visible(False)
+    ax.set_xlim(0, cummulative_data[-1])
+    axbox = ax.get_position()
+
+    for i, (colname, color) in enumerate(zip(labels, category_colors)):
+        widths = data[i]
+        starts = cummulative_data[i] - widths
+        rects = ax.barh(
+            0,
+            widths,
+            left=starts,
+            height=1,
+            label=colname,
+            color=color
+        )
+
+    ax.legend(
+        ncol=(len(labels) + 1)//2,
+        bbox_to_anchor=(0, axbox.y0-0.33, 1, 1),
+        bbox_transform=fig.transFigure,
+        loc='lower center',
+        fontsize='medium'
+    )
+    
+    plt.show()
+
 def plot_test_requirements():
+    matplotlib.rcParams.update({
+        "axes.spines.bottom": True,
+        "axes.spines.left": True,
+        "axes.spines.right": False,
+        "axes.spines.top": False
+    })
+
     requirements = {
         "Birthday":                     2048000,
         "Overlapping 5-Perms":          8011776,
@@ -63,7 +122,7 @@ def plot_test_requirements():
         "fill": False
     }
 
-    fig, ax = plt.subplots()
+    fig, ax = plt.subplots(figsize=(12, 6))
     fig.autofmt_xdate(bottom=0.22, rotation=45, ha='right')
 
     ax.bar(
@@ -86,4 +145,5 @@ def plot_test_requirements():
     plt.show()
 
 if __name__ == "__main__":
-    plot_test_requirements()
+    plot_dataset_composition()
+    # plot_test_requirements()
