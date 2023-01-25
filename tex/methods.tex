@@ -1,16 +1,39 @@
 \subsection{Testing uniformity}
 
-We conducted the following hypothesis test:
-$H_0$: each lottery number is drawn with equal probability
-$H_A$: the lottery numbers are drawn with unequal probabilities: some numbers are more likely to appear than others
+\todo{DECIDE WHICH TEST TO USE, BETWEEN: MINIMUM DISTANCE, BINNED SUMS, SIMPLE NUMBER FREQUENCIES}
+
+\todo{Decide whether we should specify the multivariate hypergeometric assumption.
+Decide whether this assumption would change the degrees of freedom (at the moment, I think it wouldn't).}
+
+We are interested in whether each of the lottery numbers appear with equal probability.
+However, each sample of 6 balls from the lottery bowl is sampled without replacement. 
+Therefore, within a single lottery drawing, the balls are *not* independent. 
+
+Each lottery day is independent. So we can 
+
+We conducted the following hypothesis test.
+
+$H_0$: each lottery number is drawn with equal probability.
+
+$H_A$: the lottery numbers are drawn with unequal probabilities: some numbers are more likely to appear than others.
 
 We used Pearson's $\chi^2$ test, a commonly recommended test for the probabilities of observing categorical data. \todo{Motivate the choice of this particular test.}
 
-In particular, we model the lottery drawing with a multivariate hypergeometric distribution. \todo{Give a more detailed explanation of this distribution, and argue that it's appropriate.}
+% In particular, we model the lottery drawing with a multivariate hypergeometric distribution. \todo{Give a more detailed explanation of this distribution, and argue that it's appropriate.}
 
-More formally, the hypothesis test can be stated in the following way:
-$H_0$: the lottery drawing follows a multivariate hypergeometric distribution with parameters: \todo{State the parameters}
-$H_A$: the lottery drawing does not follow a multivariate hypergeometric distribution
+% The multivariate hypergeometric distribution models the following situation: given an urn filled with balls of 
+% different colors, sample $n$ balls without replacement from the urn. How many balls of each color are in the sample?
+
+% This is analogous to the lottery, when we consider the lottery bowl as the urn and the numbers on the balls as the colors.
+
+% The assumption that each color is equally likely to be drawn is built into this distribution: only the number of balls of each color affects the probability of that color being drawn.
+% Therefore, the multivariate hypergeometric distribution is an appropriate choice to test the null hypothesis.
+
+% More formally, the hypothesis test can be stated in the following way.
+
+% $H_0$: the lottery drawing follows a multivariate hypergeometric distribution with parameters: \todo{State the parameters}.
+
+% $H_A$: the lottery drawing does not follow a multivariate hypergeometric distribution.
 
 Under $H_0$, we compute the following expected frequencies of each lottery number: \todo{Create a table with the expected frequencies. They will all be the same, so perhaps this can just be stated in a sentence.}
 
