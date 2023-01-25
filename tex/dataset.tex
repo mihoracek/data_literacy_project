@@ -2,11 +2,20 @@ The main dataset that we investigate is the numbers drawn from the German lotter
 We have chosen this dataset because it is relevant to us and readers of this analysis as current residents of Germany, 
 and it contains almost 70 years of data, which we believ is enough data to perform a meaningful analysis.
 
+Furthermore, Drakakis, Taylor, and Rickard did not apply their tests to this data, so 
+performing the test on the German Lotto data is a meaningful new result.
+
 The dataset has been compiled by Johannes Friedrich, 
 a software developer who has made the data publicly available via 
 \href{https://github.com/JohannesFriedrich/LottoNumberArchive}{his Github repository}.
 
 \todo{Perform verification of the correctness of the dataset by sampling from it and manually inspecting the data.}
+
+To prepare the dataset for the hypothesis test, we computed $d$, the minimum distance between winning numbers, for each 
+lottery day. We counted the frequencies of each value of $d$, and combined the counts of the 
+two largest possible values, $7$ and $8$. This is the same preparation that was performed in the paper,
+and we did it to satisfy the common rule of thumb for usage of the 
+$\chi^2$ goodness-of-fit test: the expected frequency in each bin must be $\geq 5$.
 
 % The chief component of our dataset is formed by numbers drawn in German lottery Lotto from 1955 onwards. We have focused on these dataset because of geographical locality
 % and historical depth of 70 years. Since its beginning, the rules have undergone slight changes, such as the introduction of "super numbers" in December
