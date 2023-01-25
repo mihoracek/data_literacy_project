@@ -335,22 +335,26 @@ def read_ny_powerball():
 
     return reduce(lambda a, b: a + b, numbers)
 
-def read_ny_quick_draw():
-    columns = ["Date", "Draw No.", "Draw Time", "Draw", "Extra"]
+class read_ny_quick_draw:
+    def __init__(self, year):
+        self.year = year
+    
+    def __call__(self):
+        columns = ["Date", "Draw No.", "Draw Time", "Draw", "Extra"]
 
-    csv = pd.read_csv(
-        "data/NY_Quick_Draw.csv",
-        sep=',',
-        header=0,
-        names=columns,
-        usecols=["Draw"]
-    )
+        csv = pd.read_csv(
+            f"data/NY_Quick_Draw_{self.year}.csv",
+            sep=',',
+            header=0,
+            names=columns,
+            usecols=["Draw"]
+        )
 
-    numbers = [
-        [int(n) for n in row.split()] for row in csv["Draw"]
-    ]
+        numbers = [
+            [int(n) for n in row.split()] for row in csv["Draw"]
+        ]
 
-    return reduce(lambda a, b: a + b, numbers)
+        return reduce(lambda a, b: a + b, numbers)
 
 def read_ny_take_5():
     columns = ["Date", "Evening Draw", "Evening Bonus", "Midday Draw", "Midday Bonus"]
@@ -586,22 +590,26 @@ def read_slovakia_sportka2():
 
     return csv.to_numpy().flatten()
 
-def read_dc_keno():
-    info = ["Date", "Draw No."]
+class read_dc_keno:
+    def __init__(self, year):
+        self.year = year
+    
+    def __call__(self):
+        info = ["Date", "Draw No."]
 
-    csv = pd.read_csv(
-        "data/DC_Keno.csv",
-        sep=',',
-        header=0,
-        names=info + ["Draw"],
-        usecols=["Draw"]
-    )
+        csv = pd.read_csv(
+            f"data/DC_Keno_{self.year}.csv",
+            sep=',',
+            header=0,
+            names=info + ["Draw"],
+            usecols=["Draw"]
+        )
 
-    numbers = [
-        [int(n) for n in row.split()] for row in csv["Draw"]
-    ]
+        numbers = [
+            [int(n) for n in row.split()] for row in csv["Draw"]
+        ]
 
-    return reduce(lambda a, b: a + b, numbers)
+        return reduce(lambda a, b: a + b, numbers)
 
 readers = [
     read_lotto,
@@ -626,7 +634,6 @@ readers = [
     read_ny_mega_millions,
     read_ny_pick_10,
     read_ny_powerball,
-    read_ny_quick_draw,
     read_ny_take_5,
     read_poland_lotto,
     read_poland_lotto_plus,
@@ -642,7 +649,8 @@ readers = [
     read_nh_keno_603,
     read_slovakia_sportka1,
     read_slovakia_sportka2,
-    read_dc_keno
+    read_dc_keno(2021)
+    # read_ny_quick_draw,
 ]
 
 with open("data/lottery_numbers.txt", "w") as out:
