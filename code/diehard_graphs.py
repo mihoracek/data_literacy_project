@@ -1,7 +1,7 @@
 import numpy as np
 import matplotlib
 import matplotlib.pyplot as plt
-from scipy.interpolate import splprep, splev
+from scipy.interpolate import CubicHermiteSpline
 
 matplotlib.rcParams.update({
     "backend": "TKAgg",
@@ -121,8 +121,6 @@ def plot_test_requirements():
         "Craps":                        5832704
     }
 
-    available = 477
-
     bar_properties_below = {
         "width": 1,
         "color": "0.8",
@@ -132,7 +130,6 @@ def plot_test_requirements():
     }
 
     bar_properties_above = {
-        "bottom": available,
         "width": 1,
         "color": "white",
         "edgecolor": "black",
@@ -143,22 +140,21 @@ def plot_test_requirements():
     fig, ax = plt.subplots(figsize=(12, 6))
     fig.autofmt_xdate(bottom=0.22, rotation=45, ha='right')
 
-    ax.bar(
-        np.arange(len(requirements)) * 1.25 - 0.5,
-        available,
-        **bar_properties_below
-    )
+    # ax.bar(
+    #     np.arange(len(requirements)) * 1.25 - 0.5,
+    #     available,
+    #     **bar_properties_below
+    # )
     above_bars = ax.bar(
         np.arange(len(requirements)) * 1.25 - 0.5,
-        [(int(v)//1024) - available for v in requirements.values()],
+        [(int(v)//1000) for v in requirements.values()],
         **bar_properties_above
     )
     ax.bar_label(above_bars, labels=[int(v)//1024 for v in requirements.values()], padding=3)
 
     ax.set_xticks(np.arange(len(requirements)) * 1.25 - 0.5, requirements.keys())
     ax.set_yticks([512, 1024, 2048, 4096, 8192], [512, 1024, 2048, 4096, 8192])
-    ax.axhline(available, color="black")
-    ax.set_ylabel("KiB required")
+    ax.set_ylabel("kB required")
 
     plt.show()
 
@@ -171,22 +167,31 @@ def plot_performance():
     })
 
     bit_sources = [
-        "Drawn order",
-        "Ascending order"
+        "/dev/urandom 4M",
+        "/dev/urandom 19M",
+        "Joint lotteries",
+        "DC Keno",
+        "NY Quick Draw"
     ]
 
     performance = np.array([
-        [0.9, 0.875, 0.95, 0.9],
-        [0.8, 0.75,  0.85, 0.9]
+        #    Bday,    31x31,    32x32,      6x8, Count 1s,  Parking,  Mindist,  3DSphrs,  Squeeze, OverSums
+        [0.033248,    0.329,    0.001, 0.554153, 0.301102,       0.,       0., 0.944090,       0., 0.840705], # /dev/urandom 4M
+        [0.100870,    0.647,    0.193, 0.428252, 0.057863,       0., 0.375738, 0.196550, 0.105024, 0.000958], # /dev/urandom 19M
+        [      0.,       0.,       0.,       0.,       0.,       1.,       0., 0.032128,       0.,       0.], # Joint lotteries
+        [      0.,    0.241,       0.,       0.,       0.,       1.,       0., 0.231590,       0.,       0.], # DC Keno
+        [      0.,    0.260,    0.497,       0.,       0.,       0.,       0.,       0.,       0.,       0.]  # NY Quick Draw
     ])
 
     tests = [
-        "Bitstream", "Parking", "Count 1s", "Birthday"
+        "Birthday", "Rank 31x31", "Rank 32x32", "Rank 6x8", "Count 1s",
+        "Parking", "Mindist", "3D spheres", "Squeeze", "OverSums"
     ]
 
     def modify_axis(ax, test, x_position):
+        epsilon = 0.05
         ax.set_xlim((0, len(tests)-1))
-        ax.set_ylim((0, 1))
+        ax.set_ylim((-epsilon, 1+epsilon))
 
         # Eliminate upper and right axes
         ax.spines['top'].set_visible(False)
@@ -196,6 +201,7 @@ def plot_performance():
         
         ax.spines['right'].set_color("gray")
         ax.spines['right'].set_position(('axes', x_position/(len(tests)-1)))
+        ax.spines['right'].set_bounds(low=0, high=1)
 
         ax.yaxis.set_ticks_position('right')
         ax.tick_params(
@@ -210,11 +216,16 @@ def plot_performance():
 
         ax.set_title(test, x=x_position/(len(tests)-1), pad=12)
     
-    def plot_spline(nodes, source):
+    def plot_spline(nodes, source, i):
         t = np.linspace(0, len(tests), nodes.shape[0]*100)
-        spline, _ = splprep((np.arange(nodes.shape[0]), nodes), s=3)
-        plot_points = np.array(splev(t, spline))
-        plt.plot(plot_points[0, :], plot_points[1, :], label=source)
+        curve = CubicHermiteSpline(
+            x = np.arange(nodes.shape[0]),
+            y = nodes,
+            dydx = np.zeros_like(nodes)
+        )
+        plot_points = curve(t)
+        artist, = plt.plot(t, plot_points, label=source, linewidth=2, zorder=2.1 + i/10)    # fit into default zorder scale
+        return artist
 
     fig = plt.figure(figsize=(12, 6))
     fig.subplots_adjust(top=0.833, bottom=0.166)
@@ -225,15 +236,16 @@ def plot_performance():
     for i, (t, ax) in enumerate(zip(tests, axes)):
         modify_axis(ax, t, i)
 
-    for source, nodes in zip(bit_sources, performance):
-        plot_spline(nodes, source)
+    artists = []    # For reordering labels in the legend
+    for i, (source, nodes) in enumerate(zip(bit_sources, performance)):
+        artists.append(plot_spline(nodes, source, i))
     
     fig.legend(
-        ncol=4,
-        bbox_to_anchor=(0, axes[len(tests)//2].get_position().y0-0.1, 1, 1),
+        ncol=len(tests),
+        handles=[artists[2], artists[3], artists[4], artists[0], artists[1]],   # Bleh but who cares
+        bbox_to_anchor=(0.0125, ax1.get_position().y0-0.1, 1, 1),
         bbox_transform=fig.transFigure,
-        loc='lower center',
-        fontsize='medium'
+        loc='lower center'
     )
 
     plt.show()
