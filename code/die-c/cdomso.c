@@ -5,59 +5,63 @@ void monky_ttl(char *fn, char *test)
 {
  switch( test[1] ){
     case 'P':{
-  puts("\n\t|-------------------------------------------------------------|");
-  puts("\t|        OPSO means Overlapping-Pairs-Sparse-Occupancy        |");
-  puts("\t|The OPSO test considers 2-letter words from an alphabet of   |");
-  puts("\t|1024 letters.  Each letter is determined by a specified ten  |");
-  puts("\t|bits from a 32-bit integer in the sequence to be tested. OPSO|");
-  puts("\t|generates  2^21 (overlapping) 2-letter words  (from 2^21+1   |");
-  puts("\t|\"keystrokes\")  and counts the number of missing words---that |");
-  puts("\t|is 2-letter words which do not appear in the entire sequence.|");
-  puts("\t|That count should be very close to normally distributed with |");
-  puts("\t|mean 141,909, sigma 290. Thus (missingwrds-141909)/290 should|");
-  puts("\t|be a standard normal variable. The OPSO test takes 32 bits at|");
-  puts("\t|a time from the test file and uses a designated set of ten   |");
-  puts("\t|consecutive bits. It then restarts the file for the next de- |");
-  puts("\t|signated 10 bits, and so on.                                 |");
-  puts("\t|------------------------------------------------------------ |\n");
-  break;
+      puts("\n\t|-------------------------------------------------------------|");
+      puts("\t|        OPSO means Overlapping-Pairs-Sparse-Occupancy        |");
+      puts("\t|The OPSO test considers 2-letter words from an alphabet of   |");
+      puts("\t|1024 letters.  Each letter is determined by a specified ten  |");
+      puts("\t|bits from a 32-bit integer in the sequence to be tested. OPSO|");
+      puts("\t|generates  2^21 (overlapping) 2-letter words  (from 2^21+1   |");
+      puts("\t|\"keystrokes\")  and counts the number of missing words---that |");
+      puts("\t|is 2-letter words which do not appear in the entire sequence.|");
+      puts("\t|That count should be very close to normally distributed with |");
+      puts("\t|mean 141,909, sigma 290. Thus (missingwrds-141909)/290 should|");
+      puts("\t|be a standard normal variable. The OPSO test takes 32 bits at|");
+      puts("\t|a time from the test file and uses a designated set of ten   |");
+      puts("\t|consecutive bits. It then restarts the file for the next de- |");
+      puts("\t|signated 10 bits, and so on.                                 |");
+      puts("\t|------------------------------------------------------------ |\n");
+      break;
     }
 
     case 'Q':{
-  puts("\n\t|------------------------------------------------------------ |");
-  puts("\t|    OQSO means Overlapping-Quadruples-Sparse-Occupancy       |");
-  puts("\t|  The test OQSO is similar, except that it considers 4-letter|");
-  puts("\t|words from an alphabet of 32 letters, each letter determined |");
-  puts("\t|by a designated string of 5 consecutive bits from the test   |");
-  puts("\t|file, elements of which are assumed 32-bit random integers.  |");
-  puts("\t|The mean number of missing words in a sequence of 2^21 four- |");
-  puts("\t|letter words,  (2^21+3 \"keystrokes\"), is again 141909, with  |");
-  puts("\t|sigma = 295.  The mean is based on theory; sigma comes from  |");
-  puts("\t|extensive simulation.                                        |");
-  puts("\t|------------------------------------------------------------ |\n");
-  break;
+      puts("\n\t|------------------------------------------------------------ |");
+      puts("\t|    OQSO means Overlapping-Quadruples-Sparse-Occupancy       |");
+      puts("\t|  The test OQSO is similar, except that it considers 4-letter|");
+      puts("\t|words from an alphabet of 32 letters, each letter determined |");
+      puts("\t|by a designated string of 5 consecutive bits from the test   |");
+      puts("\t|file, elements of which are assumed 32-bit random integers.  |");
+      puts("\t|The mean number of missing words in a sequence of 2^21 four- |");
+      puts("\t|letter words,  (2^21+3 \"keystrokes\"), is again 141909, with  |");
+      puts("\t|sigma = 295.  The mean is based on theory; sigma comes from  |");
+      puts("\t|extensive simulation.                                        |");
+      puts("\t|------------------------------------------------------------ |\n");
+      break;
     }
 
     case 'N':{
-  puts("\n\t|------------------------------------------------------------ |");    puts("\t|    The DNA test considers an alphabet of 4 letters: C,G,A,T,|");
-  puts("\t|determined by two designated bits in the sequence of random  |");
-  puts("\t|integers being tested.  It considers 10-letter words, so that|");
-  puts("\t|as in OPSO and OQSO, there are 2^20 possible words, and the  |");
-  puts("\t|mean number of missing words from a string of 2^21  (over-   |");
-  puts("\t|lapping)  10-letter  words (2^21+9 \"keystrokes\") is 141909.  |");
-  puts("\t|The standard deviation sigma=339 was determined as for OQSO  |");
-  puts("\t|by simulation.  (Sigma for OPSO, 290, is the true value (to  |");
-  puts("\t|three places), not determined by simulation.                 |");
-  puts("\t|------------------------------------------------------------ |\n");
-  break;
+      puts("\n\t|------------------------------------------------------------ |");
+      puts("\t|    The DNA test considers an alphabet of 4 letters: C,G,A,T,|");
+      puts("\t|determined by two designated bits in the sequence of random  |");
+      puts("\t|integers being tested.  It considers 10-letter words, so that|");
+      puts("\t|as in OPSO and OQSO, there are 2^20 possible words, and the  |");
+      puts("\t|mean number of missing words from a string of 2^21  (over-   |");
+      puts("\t|lapping)  10-letter  words (2^21+9 \"keystrokes\") is 141909.  |");
+      puts("\t|The standard deviation sigma=339 was determined as for OQSO  |");
+      puts("\t|by simulation.  (Sigma for OPSO, 290, is the true value (to  |");
+      puts("\t|three places), not determined by simulation.                 |");
+      puts("\t|------------------------------------------------------------ |\n");
+      break;
     }
  
-    default: puts("Wrong specification!!!"); exit(0);
+    default: {
+      puts("Wrong specification!!!");
+      exit(0);
+    }
   }
 
-    printf("\t\t\t   %s test for file %s\n\n", test, fn);
-    printf("\tBits used\tNo. missing words");
-    printf("\tz-score\t\tp-value\n");
+  printf("\t\t\t   %s test for file %s\n\n", test, fn);
+  printf("\tBits used\tNo. missing words");
+  printf("\tz-score\t\tp-value\n");
 
   return;
 }
