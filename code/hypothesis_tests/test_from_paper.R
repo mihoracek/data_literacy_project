@@ -94,9 +94,11 @@ expected_counts_for_table <- germany_expected_counts_transformed
 actual_counts_for_table <- germany_actual_counts_transformed
 
 table_for_report <- data.frame("d" = values_of_d,
-           "expected" = expected_counts_for_table,
-           "actual" = actual_counts_for_table)
+           "Expected frequency" = expected_counts_for_table,
+           "Actual frequency" = actual_counts_for_table,
+           check.names = FALSE)
 
 # write_csv(table_for_report, "table_for_report.csv")
 
-kbl(table_for_report, booktabs = T, caption = "Frequencies of $d$ statistic")
+kbl_code <- kbl(table_for_report, booktabs = T, format = "latex",
+                caption = "Frequencies of $d$ statistic for German Lotto")
