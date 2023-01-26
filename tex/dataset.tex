@@ -1,4 +1,4 @@
-The main dataset that we investigate is the numbers drawn from the German lottery Lotto, from 1955 onwards. 
+Section \ref{sec:methods} investigates numbers drawn from the German lottery Lotto, from 1955 onwards. 
 We have chosen this dataset because it is relevant to us and readers of this analysis as current residents of Germany, 
 and it contains almost 70 years of data, which we believ is enough data to perform a meaningful analysis.
 
@@ -11,27 +11,38 @@ a software developer who has made the data publicly available via
 
 \todo{Perform verification of the correctness of the dataset by sampling from it and manually inspecting the data.}
 
+\todo{I would put the following paragraph into the distribution testing section, as its not relevant to my diehard part.}
+
 To prepare the dataset for the hypothesis test, we computed $d$, the minimum distance between winning numbers, for each 
 lottery day. We counted the frequencies of each value of $d$, and combined the counts of the 
 two largest possible values, $7$ and $8$. This is the same preparation that was performed in the paper,
 and we did it to satisfy the common rule of thumb for usage of the 
 $\chi^2$ goodness-of-fit test: the expected frequency in each bin must be $\geq 5$.
 
-% The chief component of our dataset is formed by numbers drawn in German lottery Lotto from 1955 onwards. We have focused on these dataset because of geographical locality
-% and historical depth of 70 years. Since its beginning, the rules have undergone slight changes, such as the introduction of "super numbers" in December
-% of 1991. Nonetheless, the core principle of the lottery, six numbers between 1 and 49 has not changed once in almost 70 years and thus provides a consistent
-% basis for our work.
-
 \todo{Is there a dataset for a rigged lottery?} \href{https://notebook.community/JesseScott/Lotto649/lotto}{This} looks sketchy as hell.
 
-However even 70 years of Lotto numbers is not sufficient to produce enough data for the diehard tests. These require 10 to 12 MiB of random bits, which is
-substantially more than 28.4 KiB of Lotto numbers. Therefore we downloaded other lottery datasets and combined them together. In total, our dataset reached
-more than 750 000 numbers drawn in 18 different lotteries. These majority of these lotteries come from various english-speaking countries such as USA,
-Australia or UK because we have been looking for them with English search queries. Most of the complement is formed by other european nations like Italy,
-Czech Republic or Germany.
+However even 70 years of Lotto numbers is not sufficient to produce enough data for the diehard tests. Their author recommends
+using 10 to 12 MB of random bits, which is substantially more than 28.4 KiB of Lotto numbers. Therefore we add winning numbers
+from other lotteries to our dataset. By data volume, our data is dominated by the New York Quick Draw lottery, because it has
+been drawn every 4 minutes for the last decade, adding up to to 25,663,100 numbers at our collection of the dataset.
+Washington DC's Keno is quite similar, reaching 2,299,563 numbers over 3 years of existence. Our dataset is completed by
+the "other" category, consisting of 1,917,890 winning numbers combined from lotteries drawn less often worldwide.
 
-\todo{Merge datasets?}
+\begin{figure}
+    \centering
+    \includegraphics[width=\textwidth]{dataset_composition.pdf}
+    \caption{Origin of numbers making up our dataset.}
+    \label{fig:dataset}
+\end{figure}
 
-The numbers are drawn individually, but their order within a single lottery draw does not matter - but maybe it does for some of our tests?
+The "other" dataset comes from European or english-speaking countries. The reason is twofold - we have been looking
+for them with English search queries and these nations are more likely to subscribe to ideas like open data and thus
+offer such dataset as csv files. The European nationality stands for European transnational lotteries Eurojackpot and Euromillions.
 
-\todo{Investigate this}
+\begin{figure}
+    \centering
+    \includegraphics[width=\textwidth]{other_composition.pdf}
+    \caption{National composition of the "other" numbers.}
+\end{figure}
+
+In total, we have gathered winning numbers from 37 different lotteries.

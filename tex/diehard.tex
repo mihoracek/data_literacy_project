@@ -13,7 +13,43 @@ or \href{http://www.wisdom.weizmann.ac.il/~oded/foc-vol1.html}{Foundations of Cr
 of Standards \& Technology has published a \href{https://nvlpubs.nist.gov/nistpubs/legacy/sp/nistspecialpublication800-22r1a.pdf}{guideline} discussing this matter too.
 
 We decided to use the Diehard battery of tests, which was developed by the american statistician George Marsaglia in the nineties. While this package used
-to be quite popular in its day, it has been superceded today by other suites, including its derivatives such as Dieharder or TestU01. \todo{Why did we pick this one?}
+to be quite popular in its day, it has been superceded today by other suites, including its derivatives such as Dieharder or TestU01. In comparison with the alternatives,
+the Diehard tests \href{https://crypto.stackexchange.com/questions/90076/how-to-compute-the-dataset-size-required-by-dieharder-tests}{consume a lot less data}, making
+its use feasible to limited data cases such as our project.
+
+Nonetheless even less data greedy test still requires quite a lot of data. We are thus limited in which tests we can run, see~\ref{fig:dataset} for our dataset size.
+
+\begin{figure}
+    \centering
+    \includegraphics[width=\textwidth]{diehard_requirements.pdf}
+    \caption{Amount of data required to run tests at default settings.}
+    \label{fig:requirements}
+\end{figure}
+
+\subsection{Data augmentation}
+
+Diehard battery expects a random stream of zero and one bits as input. To satisfy this, we transform our lottery numbers distributed in 1-n range by first
+subtracting 1 and taking 5 lowest bits from every number for $n \in \langle 32, 64)$ or 6 for $n \in \langle 64, 128)$.
+
+This transformation doesn't however solve all problems. The winning numbers are sometimes provided in sorted, ascending order in a single draw. We discuss
+this in further sections. Furthermore, the numbers are drawn without replacement. We argue that this is an acceptable deviation. \todo{A bit of combinatorics,
+combinations with replacement as approximation for combinations without replacement}.
+
+\subsection{Results}
+
+\begin{figure}
+    \centering
+    \includegraphics[width=\textwidth]{performance.pdf}
+    \caption{Score at various Diehard tests.}
+    \label{fig:performance}
+\end{figure}
+
+\begin{figure}
+    \centering
+    \includegraphics[width=\textwidth]{pvalue_distribution.pdf}
+    \caption{Randomness quality as measured by Diehard. Gray line is perfect randomness.}
+    \label{fig:pvalue_distribution}
+\end{figure}
 
 \begin{enumerate}
     \item About Diehard.
