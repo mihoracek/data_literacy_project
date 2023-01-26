@@ -74,3 +74,11 @@ ny_quick_draw_2013_test_results <- chisq.test(x = ny_quick_draw_2013_observed_co
 ny_quick_draw_2013_test_results$p.value
 ny_quick_draw_2013_test_results$parameter
 
+dc_keno_2020 <- read_csv("../../data/DC_Keno_2020.csv")
+
+first_row_dc_2020 <- dc_keno_2020[1, ]$`Winning Numbers` %>% 
+  str_split(pattern = " ")
+
+length(first_row_dc_2020[[1]])
+
+

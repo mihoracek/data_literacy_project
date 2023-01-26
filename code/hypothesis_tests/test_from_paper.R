@@ -14,6 +14,8 @@ german_lotto_numbers_raw <- fromJSON("../../data/LottoNumberArchive/Lottonumbers
 german_lotto_numbers <- german_lotto_numbers_raw %>%
     filter(variable == "Lottozahl")
 
+# Verify that the German Lotto dataset is
+# sorted in ascending order
 are_any_drawings_unsorted <- german_lotto_numbers %>% 
   group_by(id) %>% 
   summarise(unsorted = is.unsorted(value)) %>%
@@ -23,11 +25,10 @@ are_any_drawings_unsorted <- german_lotto_numbers %>%
 expect_false(are_any_drawings_unsorted)
 
 # We transform the data so that each row represents one day (i.e. one drawing of 6)
-# The 6 numbers will each be columns
-
+# Each of the 6 numbers will have its own column
 suffixes <- rep(1:6, times = max(german_lotto_numbers$id))
 
-# Append indices to to produce the column names for the transformed data
+# Append indices to produce the column names for the transformed data
 german_lotto_numbers["rank_of_number"] <- paste(german_lotto_numbers$variable, suffixes, sep="_")
 
 # Transform the data
@@ -35,9 +36,10 @@ german_lotto_numbers_wide <- german_lotto_numbers %>%
   pivot_wider(id_cols = c(id, date), names_from = rank_of_number, values_from = value)
 
 # Compute the minimum distance between two elements of a sorted vector in ascending order
+# Because the vector is sorted, we can simply iterate through the vector
+# And compare only consecutive elements
 min_distance <- function(arr) {
   d <- .Machine$integer.max
-  # expect_equal(is.unsorted(arr), FALSE)
   for (i in 1:(length(arr) - 1)) {
     # Compute the distance between consecutive elements
     candidate_d <- abs(arr[i + 1] - arr[i])
@@ -50,13 +52,13 @@ min_distance <- function(arr) {
   return(d)
 }
 
+# Add the minimum distance as a column
 german_lotto_numbers_with_min_dist <- german_lotto_numbers_wide %>%
   rowwise() %>%
   mutate(min_dist = min_distance(c(Lottozahl_1, Lottozahl_2, Lottozahl_3, Lottozahl_4, Lottozahl_5, Lottozahl_6)))
 
+# Count the occurrences of the values of d
 observed_counts <- table(german_lotto_numbers_with_min_dist$min_dist)
-
-expected_proportions <- vector(mode = "double", length = length(observed_counts))
 
 n <- 49
 m <- 6
@@ -64,6 +66,9 @@ m <- 6
 acc <- 0
 
 max_d <- floor((n-1)/(m-1)) - 1
+
+expected_proportions <- vector(mode = "double", length = max_d)
+
 for (i in 1:max_d) {
   prob_less_than_k <- 1 - ( choose(n - i*(m - 1), m) / choose(n, m))
   
