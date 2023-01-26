@@ -252,12 +252,19 @@ def plot_performance():
     plt.show()
 
 def plot_pvalue_distributions():
+    matplotlib.rcParams.update({
+        "axes.spines.bottom": True,
+        "axes.spines.left": True,
+        "axes.spines.right": False,
+        "axes.spines.top": False
+    })
+
     bit_sources = [
-        "/dev/urandom 4M",
-        "/dev/urandom 19M",
         "Joint lotteries",
         "DC Keno",
-        "NY Quick Draw"
+        "NY Quick Draw",
+        "/dev/urandom 4M",
+        "/dev/urandom 19M"
     ]
 
     p_values = [
@@ -337,9 +344,33 @@ def plot_pvalue_distributions():
         )
     ]
 
+    fig, ax = plt.subplots(figsize=(6, 6))
+    ax.set_aspect("equal")
+
+    epsilon = 0.05
+    ax.set_xlim((0, 1+epsilon))
+    ax.set_ylim((0, 1+epsilon))
+    ax.spines['left'].set_bounds(low=0, high=1)
+    ax.spines['bottom'].set_bounds(low=0, high=1)
+    
+    ax.plot([0, 1], [0, 1], color="gray")
+    for source, name in zip(p_values, bit_sources):
+        source.sort()
+        xaxis = np.linspace(0, 1, num=len(source), endpoint=True)
+        ax.plot(xaxis, source, label=name, zorder=6)
+    
+    ax.legend(
+        ncol=1,
+        bbox_to_anchor=(0.125, 0.24, 1, 1),
+        bbox_transform=fig.transFigure,
+        loc='center left'
+    )
+
+    plt.show()
+
 
 if __name__ == "__main__":
-    # plot_dataset_composition()
+    plot_dataset_composition()
     # plot_test_requirements()
     # plot_performance()
-    plot_pvalue_distributions()
+    # plot_pvalue_distributions()
