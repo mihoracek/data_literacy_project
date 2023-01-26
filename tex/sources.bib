@@ -13,6 +13,16 @@
     year            = {1985}
 }
 
+@misc{NISTBible,
+    author = {Lawrence Bassham and Andrew Rukhin and Juan Soto and James Nechvatal and Miles Smid and Stefan Leigh and M Levenson and M Vangel and Nathanael Heckert and D Banks},
+    title = {A Statistical Test Suite for Random and Pseudorandom Number Generators for Cryptographic Applications},
+    year = {2010},
+    month = {2010-09-16},
+    publisher = {Special Publication (NIST SP), National Institute of Standards and Technology, Gaithersburg, MD},
+    url = {https://tsapps.nist.gov/publication/get_pdf.cfm?pub_id=906762},
+    language = {en},
+}
+
 @article{modernRNG,
     author = {Gevorkyan, Migran and Demidova, Anastasia and Korolkova, Anna and Kulyabov, Dmitry},
     year = {2020},
@@ -22,4 +32,103 @@
     volume = {60},
     journal = {Computational Mathematics and Mathematical Physics},
     doi = {10.1134/S096554252001008X}
+}
+
+@article{monkey,
+    author = {Marsaglia, G. and Zaman, Arif},
+    year = {1993},
+    month = {11},
+    pages = {1-10},
+    title = {Monkey tests for random number generators},
+    volume = {26},
+    journal = {Computers \& Mathematics with Applications},
+    doi = {10.1016/0898-1221(93)90001-C}
+}
+
+@article{mindist,
+    author = {Marsaglia, George and Narasimhan, B. and Zaman, Arif},
+    year = {1990},
+    month = {01},
+    pages = {4199-4212},
+    title = {The distance between random points in rectangles},
+    volume = {19},
+    journal = {Communications in Statistics - Theory and Methods},
+    doi = {10.1080/03610929008830437}
+}
+
+@misc{manrandom,
+    howpublished = {https://man7.org/linux/man-pages/man4/random.4.html},
+    title        = {Linux manual}
+}
+
+@misc{mythsrandom,
+    author       = {Thomas' Digital Garden},
+    howpublished = {https://www.2uo.de/myths-about-urandom/},
+    title        = {Myths about /dev/urandom}
+}
+
+@book{HAC,
+  added-at = {2007-04-16T14:16:26.000+0200},
+  author = {Menezes, Alfred J. and van Oorschot, Paul C. and Vanstone, Scott A.},
+  biburl = {https://www.bibsonomy.org/bibtex/21fb86a3afb62bbb4bc2f94a0299a4d59/kidloc},
+  interhash = {d5837a554ce2ffd49f551045400e244c},
+  intrahash = {1fb86a3afb62bbb4bc2f94a0299a4d59},
+  keywords = {cryptography handbook programming reference security},
+  publisher = {CRC Press},
+  timestamp = {2007-04-16T14:16:26.000+0200},
+  title = {Handbook of Applied Cryptography},
+  url = {http://www.cacr.math.uwaterloo.ca/hac/},
+  year = 2001
+}
+
+@misc{dieharder,
+    author       = {Robert G. Brown},
+    howpublished = {https://webhome.phy.duke.edu/~rgb/General/dieharder.php},
+    title        = {Dieharder: A Random Number Test Suite},
+    year         = {2004}
+}
+
+@article{testu01,
+    author = {L'Ecuyer, Pierre and Simard, Richard},
+    title = {TestU01: A C Library for Empirical Testing of Random Number Generators},
+    year = {2007},
+    issue_date = {August 2007},
+    publisher = {Association for Computing Machinery},
+    address = {New York, NY, USA},
+    volume = {33},
+    number = {4},
+    issn = {0098-3500},
+    url = {https://doi.org/10.1145/1268776.1268777},
+    doi = {10.1145/1268776.1268777},
+    abstract = {We introduce TestU01, a software library implemented in the ANSI C language, and offering a collection of utilities for the empirical statistical testing of uniform random number generators (RNGs). It provides general implementations of the classical statistical tests for RNGs, as well as several others tests proposed in the literature, and some original ones. Predefined tests suites for sequences of uniform random numbers over the interval (0, 1) and for bit sequences are available. Tools are also offered to perform systematic studies of the interaction between a specific test and the structure of the point sets produced by a given family of RNGs. That is, for a given kind of test and a given class of RNGs, to determine how large should be the sample size of the test, as a function of the generator's period length, before the generator starts to fail the test systematically. Finally, the library provides various types of generators implemented in generic form, as well as many specific generators proposed in the literature or found in widely used software. The tests can be applied to instances of the generators predefined in the library, or to user-defined generators, or to streams of random numbers produced by any kind of device or stored in files. Besides introducing TestU01, the article provides a survey and a classification of statistical tests for RNGs. It also applies batteries of tests to a long list of widely used RNGs.},
+    journal = {ACM Trans. Math. Softw.},
+    month = {aug},
+    articleno = {22},
+    numpages = {40},
+    keywords = {random number tests, statistical test, Statistical software, random number generators}
+}
+
+@misc{datasize-dieharder,
+    author       = {Crypto Stackexchange},
+    howpublished = {https://crypto.stackexchange.com/questions/90076/how-to-compute-the-dataset-size-required-by-dieharder-tests},
+    title        = {How to compute the dataset size required by dieharder tests?},
+    year         = {2021}
+}
+
+@misc{critique,
+    author       = {Dirk Eddelbuettel},
+    howpublished = {https://github.com/eddelbuettel/dieharder/blob/master/NOTES},
+    title        = {STS Critique},
+    year         = {2019}
+}
+
+@INPROCEEDINGS{LFSR,
+    author={Gupta, Nidhi and Biswas, G. P.},
+    booktitle={2011 2nd International Conference on Computer and Communication Technology (ICCCT-2011)}, 
+    title={WEP implementation using Linear Feedback Shift Register (LFSR) and dynamic key}, 
+    year={2011},
+    volume={},
+    number={},
+    pages={422-427},
+    doi={10.1109/ICCCT.2011.6075144}
 }
