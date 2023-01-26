@@ -612,48 +612,57 @@ class read_dc_keno:
         return reduce(lambda a, b: a + b, numbers)
 
 readers = [
-    read_lotto,
-    read_eurojackpot,
-    read_sportka,
-    read_ny_lotto,
-    read_uk_lotto,
-    read_uk_lotto_tuesday,
-    read_texas_lotto,
-    read_italy_lotto,
-    read_italy_lotto_super,
-    read_italy_lotto_10e,
-    read_israel_lotto,
-    read_australia_monday_lotto,
-    read_australia_wednesday_lotto,
-    read_australia_saturdays_lotto,
-    read_australia_oz_lotto,
-    read_australia_powerball,
-    read_australia_set4life,
-    read_canada_lotto,
-    read_ny_cash4life,
-    read_ny_mega_millions,
-    read_ny_pick_10,
-    read_ny_powerball,
-    read_ny_take_5,
-    read_poland_lotto,
-    read_poland_lotto_plus,
-    read_poland_lotto_mini,
-    read_poland_multi,
-    read_euromillions,
-    read_belgium_lotto,
-    read_belgium_keno,
-    read_slovakia_keno_10,
-    read_slovakia_lotto1,
-    read_slovakia_lotto2,
-    read_slovakia_lotto_535,
-    read_nh_keno_603,
-    read_slovakia_sportka1,
-    read_slovakia_sportka2,
-    read_dc_keno(2021)
-    # read_ny_quick_draw,
+    # Datasets in drawn order with max number smaller than 64
+    read_uk_lotto,                  # D32
+    read_uk_lotto_tuesday,          # D32
+    read_eurojackpot,               # D32
+    read_sportka,                   # D32
+    read_slovakia_sportka2,         # D32
+    read_slovakia_lotto1,           # D32
+    read_slovakia_lotto2,           # D32
+    read_slovakia_lotto_535,        # D32
+    read_australia_monday_lotto,    # D32
+    read_australia_wednesday_lotto, # D32
+    read_australia_powerball,       # D32
+    read_australia_set4life,        # D32
+    read_australia_saturdays_lotto, # D32*
+    
+    # Datasets in drawn order with max number greater or equal to 64
+    # read_italy_lotto,               # D64
+    
+    # Datasets in ascending order with max number smaller than 64
+    # read_slovakia_sportka1,         # A32*
+    # read_lotto,                     # A32
+    # read_ny_lotto,                  # A32    
+    # read_texas_lotto,               # A32
+    # read_israel_lotto,              # A32    
+    # read_australia_oz_lotto,        # A32    
+    # read_canada_lotto,              # A32
+    # read_ny_cash4life,              # A32
+    # read_ny_take_5,                 # A32
+    # read_poland_lotto,              # A32
+    # read_poland_lotto_plus,         # A32
+    # read_poland_lotto_mini,         # A32    
+    # read_euromillions,              # A32
+    # read_belgium_lotto,             # A32
+
+    # Datasets in ascending order with max number greater or equal to 64
+    # read_belgium_keno,              # A64
+    # read_slovakia_keno_10,          # A64    
+    # read_nh_keno_603,               # A64    
+    # read_poland_multi,              # A64
+    # read_italy_lotto_super,         # A64
+    # read_italy_lotto_10e,           # A64
+    # read_ny_mega_millions,          # A64
+    # read_ny_pick_10,                # A64
+    # read_ny_powerball,              # A64
+    
+    # Separate datasets because they are huge, loaded per individual years
+    # read_dc_keno(2021),           # D64
+    # read_ny_quick_draw(2023),     # A64
 ]
 
-with open("data/lottery_numbers.txt", "w") as out:
+with open("data/countries/Drawn32.txt", "w") as out:
     for read in readers:
         for number in read():
             print(number, file=out)
