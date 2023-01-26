@@ -1,34 +1,39 @@
 library(dplyr)
 library(jsonlite)
 library(readr)
-library(testthat)
 library(ggplot2)
 library(tidyr)
+library(testthat)
 
 set.seed(1)
 
 german_lotto_numbers_raw <- fromJSON("../../data/LottoNumberArchive/Lottonumbers_tidy_complete.json")
 
+# We are only interested in the Lottozahl, the 'regular' numbers
 german_lotto_numbers <- german_lotto_numbers_raw %>%
     filter(variable == "Lottozahl")
 
-# sums_for_days <- german_lotto_numbers_raw %>%
-#   filter(variable == "Lottozahl") %>%
-#   group_by(id) %>%
-#   summarise(sum = sum(value))
+# We transform the data so that each row represents one day (i.e. one drawing of 6)
+# The 6 numbers will each be columns
 
 suffixes <- rep(1:6, times = max(german_lotto_numbers$id))
 
+# Append indices to to produce the column names for the transformed data
 german_lotto_numbers["rank_of_number"] <- paste(german_lotto_numbers$variable, suffixes, sep="_")
 
+# Transform the data
 german_lotto_numbers_wide <- german_lotto_numbers %>%
   pivot_wider(id_cols = c(id, date), names_from = rank_of_number, values_from = value)
 
+# Compute the minimum distance between two elements of a sorted vector in ascending order
 min_distance <- function(arr) {
   d <- .Machine$integer.max
+  expect_equal(is.unsorted(arr), FALSE)
   for (i in 1:(length(arr) - 1)) {
+    # Compute the distance between consecutive elements
     candidate_d <- abs(arr[i + 1] - arr[i])
     if (candidate_d < d) {
+      # we have found a new minimum
       d <- candidate_d
     }
   }
