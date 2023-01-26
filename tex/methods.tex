@@ -1,15 +1,7 @@
 \subsection{Testing uniformity}
 
-\todo{DECIDE WHICH TEST TO USE, BETWEEN: MINIMUM DISTANCE, BINNED SUMS, SIMPLE NUMBER FREQUENCIES}
-
-\todo{Decide whether we should specify the multivariate hypergeometric assumption.
-Decide whether this assumption would change the degrees of freedom (at the moment, I think it wouldn't).}
-
-We are interested in whether each of the lottery numbers appear with equal probability.
-However, each sample of 6 balls from the lottery bowl is sampled without replacement. 
-Therefore, within a single lottery drawing, the balls are *not* independent. 
-
-Each lottery day is independent. So we can 
+\todo{QUESTION FOR MICHAEL: which test should we use, between: MINIMUM DISTANCE, BINNED SUMS, SIMPLE NUMBER FREQUENCIES.
+Is it okay if the analysis is essentially: replicating the methods in a paper, but on a new dataset?}
 
 We conducted the following hypothesis test.
 
@@ -18,6 +10,40 @@ $H_0$: each lottery number is drawn with equal probability.
 $H_A$: the lottery numbers are drawn with unequal probabilities: some numbers are more likely to appear than others.
 
 We used Pearson's $\chi^2$ test, a commonly recommended test for the probabilities of observing categorical data. \todo{Motivate the choice of this particular test.}
+
+\subsubsection{Description of minimum-distance statistic.}
+
+To create the frequency tables for the $\chi^2 test$, we used the minimum distance statistic $d$ used by Drakakis et al.
+
+\todo{write the definition from Drakakis et al.}
+
+This statistic is useful for detecting human tampering because it is known that humans usually do a
+poor job of imitating the random choices that occur under the null hypothesis. Boland and Pawitan showed
+that when humans are asked to sample $m$ integers from the set ${1,...,n}$, the value
+of this statistic is greater on average than it is under uniform sampling. In particular,
+they observed that the true probability of $d = 1$ is greater than $0.5$, a result that 
+is highly unintuitive to humans: humans tend to underestimate how likely it is that
+two consecutive numbers are picked. In particular, Boland and Pawitan
+computed a $\chi^2$ goodness-of-fit statistic of the human-produced $d$ against the uniformly produced $d$
+, which if they had conducted a hypothesis test, would have yielded a 
+p-value of < 0.0000001. 
+
+Therefore, a low p-value could be consistent with human tampering, especially if we
+observe an unusually small number of lottery drawings where $d = 1$, as Drakakis et al.
+did in the French lottery. 
+
+\subsubsection{Description of the test statistic.}
+
+\todo{Explain the $\chi^2$ goodness-of-fit test. 
+Include a table of the expected vs. observed frequencies.
+Report the results.}
+
+% \todo{Decide whether we should specify the multivariate hypergeometric assumption.
+% Decide whether this assumption would change the degrees of freedom (at the moment, I think it wouldn't).}
+
+% We are interested in whether each of the lottery numbers appear with equal probability.
+% However, each sample of 6 balls from the lottery bowl is sampled without replacement. 
+% Therefore, within a single lottery drawing, the balls are *not* independent. 
 
 % In particular, we model the lottery drawing with a multivariate hypergeometric distribution. \todo{Give a more detailed explanation of this distribution, and argue that it's appropriate.}
 
@@ -35,7 +61,7 @@ We used Pearson's $\chi^2$ test, a commonly recommended test for the probabiliti
 
 % $H_A$: the lottery drawing does not follow a multivariate hypergeometric distribution.
 
-Under $H_0$, we compute the following expected frequencies of each lottery number: \todo{Create a table with the expected frequencies. They will all be the same, so perhaps this can just be stated in a sentence.}
+% Under $H_0$, we compute the following expected frequencies of each lottery number: \todo{Create a table with the expected frequencies.}
 
 The $\chi^2$ statistic is a function of how much our actual observed frequencies deviate from these expected frequencies. 
 Larger deviations result in higher values of the $\chi^2$ statistic and therefore lower p-values.

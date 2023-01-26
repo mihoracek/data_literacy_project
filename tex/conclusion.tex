@@ -4,3 +4,28 @@
     \item Reminder: too few numbers for comfort
     \item The Diehard tests are flawed (\href{https://crypto.stackexchange.com/a/397}{Linear Feedback Shift Registers})
 \end{enumerate}
+
+We initially wanted to perform a hypothesis test of the distribution of the numbers. 
+In particular, we considered performing a test of the goodness-of-fit of 
+the discrete uniform distribution from $1$ to $49$ for the observed frequencies
+of each Lotto number. However, we discarded this approach because the common goodness-of-fit tests
+($\chi^2$, Kolmogorov-Smirnov) require that the events are i.i.d., and the Lotto numbers
+are not i.i.d.: in each Lotto drawing, the numbers are sampled without replacement,
+so each number drawn on a particular day depends on the numbers that were drawn before
+on that day.
+
+Each lottery day is i.i.d. from a multivariate hypergeometric distribution,
+so we can apply one of these goodness-of-fit tests when each day contributes a single
+event. However, another rule-of-thumb for the $\chi^2$ goodness-of-fit test is that
+each category should have an expected count $\geq 5$. Directly counting the frequencies
+of each unique combination would not satisfy this rule-of-thumb. To handle this, we could compute
+a function of lottery draws and use that to group lottery draws together: for example,
+we could compute the sum of the 6 Lotto numbers from a single drawing, and count
+the frequencies of the sums being in specific bins. Then, we could safely apply the 
+$\chi^2$ goodness-of-fit test. However, it is unknown how well this approach may
+detect human tampering. Prior research has shown that humans do a poor job of 
+reproducing the distribution of $d$, so we felt that it was more appropriate for 
+tampering detection. However, this approach may still be useful for a player of the lottery:
+a deviation from the expected distribution of sums may guide a player to choose
+a combination of numbers that is more likely than would be expected under a "fair"
+null hypothesis.

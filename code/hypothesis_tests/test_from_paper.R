@@ -5,6 +5,8 @@ library(testthat)
 library(ggplot2)
 library(tidyr)
 
+set.seed(1)
+
 german_lotto_numbers_raw <- fromJSON("../../data/LottoNumberArchive/Lottonumbers_tidy_complete.json")
 
 german_lotto_numbers <- german_lotto_numbers_raw %>%
@@ -70,5 +72,10 @@ germany_actual_counts_transformed <- c(observed_counts[1:6], observed_counts[7] 
 
 paper_test_results <- chisq.test(germany_actual_counts_transformed, p = germany_expected_counts_transformed, rescale.p = TRUE)
 
-paper_test_results$p.value
-paper_test_results$parameter
+print(paper_test_results$p.value)
+print(paper_test_results$parameter)
+
+values_of_d <- c(as.character(1:6), "7 and 8")
+expected_counts_for_table <- germany_expected_counts_transformed
+actual_counts_for_table <- germany_actual_counts_transformed
+
