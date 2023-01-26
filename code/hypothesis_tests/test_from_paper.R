@@ -4,6 +4,7 @@ library(readr)
 library(ggplot2)
 library(tidyr)
 library(testthat)
+library(kableExtra)
 
 set.seed(1)
 
@@ -12,6 +13,14 @@ german_lotto_numbers_raw <- fromJSON("../../data/LottoNumberArchive/Lottonumbers
 # We are only interested in the Lottozahl, the 'regular' numbers
 german_lotto_numbers <- german_lotto_numbers_raw %>%
     filter(variable == "Lottozahl")
+
+are_any_drawings_unsorted <- german_lotto_numbers %>% 
+  group_by(id) %>% 
+  summarise(unsorted = is.unsorted(value)) %>%
+  select(unsorted) %>%
+  any()
+
+expect_false(are_any_drawings_unsorted)
 
 # We transform the data so that each row represents one day (i.e. one drawing of 6)
 # The 6 numbers will each be columns
@@ -28,7 +37,7 @@ german_lotto_numbers_wide <- german_lotto_numbers %>%
 # Compute the minimum distance between two elements of a sorted vector in ascending order
 min_distance <- function(arr) {
   d <- .Machine$integer.max
-  expect_equal(is.unsorted(arr), FALSE)
+  # expect_equal(is.unsorted(arr), FALSE)
   for (i in 1:(length(arr) - 1)) {
     # Compute the distance between consecutive elements
     candidate_d <- abs(arr[i + 1] - arr[i])
@@ -64,7 +73,7 @@ for (i in 1:max_d) {
 
 germany_expected_counts <- expected_proportions * max(german_lotto_numbers_raw$id)
 france_expected_counts <- 4858 * expected_proportions
-spain_c_expectd_counts <- 6443 * expected_proportions
+spain_c_expected_counts <- 6443 * expected_proportions
 
 # transform the data so that d = 7 and d = 8 are grouped together
 # so the expected count is greater than 5
@@ -84,3 +93,10 @@ values_of_d <- c(as.character(1:6), "7 and 8")
 expected_counts_for_table <- germany_expected_counts_transformed
 actual_counts_for_table <- germany_actual_counts_transformed
 
+table_for_report <- data.frame("d" = values_of_d,
+           "expected" = expected_counts_for_table,
+           "actual" = actual_counts_for_table)
+
+# write_csv(table_for_report, "table_for_report.csv")
+
+kbl(table_for_report, booktabs = T, caption = "Frequencies of $d$ statistic")
