@@ -105,7 +105,6 @@ def plot_test_requirements():
     convert = lambda v: (v * (8/5)) / 1e6   # 1e6 rescales to millions on numbers
 
     requirements = {
-    #   Test:                           Bytes necessary for test
         "Birthday":                     convert(2048000),
         "Overlapping 5-Perms":          convert(8011776),
         "Binary rank 31x31":            convert(4964352),
@@ -125,11 +124,10 @@ def plot_test_requirements():
         "Craps":                        convert(5832704)
     }
 
-    # Processed dataset size in bytes
     NY = convert(20528177)
     DC = convert( 4189822)
     JC = convert( 1453016)
-    print(NY)
+    
     bar_properties = {
         "width": 1,
         "linewidth": 1,
@@ -147,29 +145,37 @@ def plot_test_requirements():
     )
 
     bar_height = np.array([v for v in requirements.values()])
+    bar_positions = np.arange(len(requirements)) * 1.25 - 0.5
+    low_mask = bar_height <= JC
     low_bars = ax.bar(
-        np.arange(len(requirements)) * 1.25 - 0.5,
-        np.minimum(bar_height, JC),
-        color="0.75",
+        bar_positions[low_mask],
+        bar_height[low_mask],
+        color="none",
         fill=True,
         **bar_properties
     )
 
-    bar_height  = np.maximum(0, bar_height - JC)     # Rectify to prevent negative offsets
+    ax = low_bars[0].axes
+    for bar in low_bars:
+        x, y = bar.get_xy()
+        w, h = bar.get_width(), bar.get_height()
+        ax.add_patch(matplotlib.patches.Rectangle((x, y), w/2, h, color="navy", alpha=0.25, zorder=6))
+        ax.add_patch(matplotlib.patches.Rectangle((x+w/2, y), w/2, h, color="gold", alpha=0.25, zorder=6))
+
+    medium_mask = np.logical_and(bar_height > JC, bar_height <= DC)
     medium_bars = ax.bar(
-        np.arange(len(requirements)) * 1.25 - 0.5,
-        np.minimum(bar_height, DC-JC),
-        bottom=JC,
-        color="0.9",
+        bar_positions[medium_mask],
+        bar_height[medium_mask],
+        color="gold",
+        alpha=0.25,
         fill=True,
         **bar_properties
     )
 
-    bar_height = np.maximum(0, bar_height - DC)
-    top_bars   = ax.bar(
-        np.arange(len(requirements)) * 1.25 - 0.5,
-        np.minimum(bar_height, NY-DC-JC),
-        bottom=DC,
+    top_mask = bar_height > DC
+    top_bars = ax.bar(
+        bar_positions[top_mask],
+        bar_height[top_mask],
         fill=False,
         **bar_properties
     )
@@ -178,7 +184,6 @@ def plot_test_requirements():
     ax.axhline(DC, linewidth=2, label="DC Keno", color="gold")
 
     ax.set_xticks(np.arange(len(requirements)) * 1.25 - 0.25, requirements.keys())
-    # ax.set_yticks([512, 1024, 2048, 4096, 8192], [512, 1024, 2048, 4096, 8192])
     ax.set_ylabel("Millions of 1-49 numbers")
 
     ax.legend(
@@ -415,6 +420,6 @@ def plot_pvalue_distributions():
 
 if __name__ == "__main__":
     # plot_dataset_composition()
-    # plot_test_requirements()
+    plot_test_requirements()
     # plot_performance()
-    plot_pvalue_distributions()
+    # plot_pvalue_distributions()
