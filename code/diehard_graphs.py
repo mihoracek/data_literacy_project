@@ -101,60 +101,89 @@ def plot_test_requirements():
         "axes.spines.top": False
     })
 
+    # v is in bytes, so * 8 converts to bits and one 1-49 lottery number provides 5 bits
+    convert = lambda v: (v * (8/5)) / 1e6   # 1e6 rescales to millions on numbers
+
     requirements = {
-        "Birthday":                     2048000,
-        "Overlapping 5-Perms":          8011776,
-        "Binary rank 31x31":            4964352,
-        "Binary rank 32x32":            5128192,
-        "Binary rank 6x8":              2408448,
-        "Bitstream":                    5259264,
-        "Monkey OPSO":                  8404992,
-        "Monkey OQSO":                  8404992,
-        "Monkey DNA":                   8404992,
-        "Count 1s":                     1032192,
-        "Parking":                       966656,
-        "Mindist":                      6406144,
-        "3D spheres":                    966656,
-        "Squeeze":                      8306688,
-        "Overlapping sums":              802816,
-        "Runs":                          802816,
-        "Craps":                        5832704
+    #   Test:                           Bytes necessary for test
+        "Birthday":                     convert(2048000),
+        "Overlapping 5-Perms":          convert(8011776),
+        "Binary rank 31x31":            convert(4964352),
+        "Binary rank 32x32":            convert(5128192),
+        "Binary rank 6x8":              convert(2408448),
+        "Bitstream":                    convert(5259264),
+        "Monkey OPSO":                  convert(8404992),
+        "Monkey OQSO":                  convert(8404992),
+        "Monkey DNA":                   convert(8404992),
+        "Count 1s":                     convert(1032192),
+        "Parking":                      convert( 966656),
+        "Mindist":                      convert(6406144),
+        "3D spheres":                   convert( 966656),
+        "Squeeze":                      convert(8306688),
+        "Overlapping sums":             convert( 802816),
+        "Runs":                         convert( 802816),
+        "Craps":                        convert(5832704)
     }
 
-    bar_properties_below = {
+    # Processed dataset size in bytes
+    NY = convert(20528177)
+    DC = convert( 4189822)
+    JC = convert( 1453016)
+    print(NY)
+    bar_properties = {
         "width": 1,
-        "color": "0.8",
-        "edgecolor": "black",
         "linewidth": 1,
-        "fill": True
+        "edgecolor": "black"        
     }
 
-    bar_properties_above = {
-        "width": 1,
-        "color": "white",
-        "edgecolor": "black",
-        "linewidth": 1,
-        "fill": False
-    }
-
-    fig, ax = plt.subplots(figsize=(12, 6))
-    fig.autofmt_xdate(bottom=0.22, rotation=45, ha='right')
-
-    # ax.bar(
-    #     np.arange(len(requirements)) * 1.25 - 0.5,
-    #     available,
-    #     **bar_properties_below
-    # )
-    above_bars = ax.bar(
-        np.arange(len(requirements)) * 1.25 - 0.5,
-        [(int(v)//1000) for v in requirements.values()],
-        **bar_properties_above
+    fig, ax = plt.subplots(figsize=(12, 4))
+    fig.subplotpars.update(
+        left=0.05, right=0.975
     )
-    ax.bar_label(above_bars, labels=[int(v)//1024 for v in requirements.values()], padding=3)
+    fig.autofmt_xdate(bottom=0.3, rotation=45, ha='right')
+    ax.tick_params(
+        axis="x", which="both", top=False, left=False, right=False, bottom=False,
+        labeltop=False, labelleft=False, labelright=False, labelbottom=True
+    )
 
-    ax.set_xticks(np.arange(len(requirements)) * 1.25 - 0.5, requirements.keys())
-    ax.set_yticks([512, 1024, 2048, 4096, 8192], [512, 1024, 2048, 4096, 8192])
-    ax.set_ylabel("kB required")
+    bar_height = np.array([v for v in requirements.values()])
+    low_bars = ax.bar(
+        np.arange(len(requirements)) * 1.25 - 0.5,
+        np.minimum(bar_height, JC),
+        color="0.75",
+        fill=True,
+        **bar_properties
+    )
+
+    bar_height  = np.maximum(0, bar_height - JC)     # Rectify to prevent negative offsets
+    medium_bars = ax.bar(
+        np.arange(len(requirements)) * 1.25 - 0.5,
+        np.minimum(bar_height, DC-JC),
+        bottom=JC,
+        color="0.9",
+        fill=True,
+        **bar_properties
+    )
+
+    bar_height = np.maximum(0, bar_height - DC)
+    top_bars   = ax.bar(
+        np.arange(len(requirements)) * 1.25 - 0.5,
+        np.minimum(bar_height, NY-DC-JC),
+        bottom=DC,
+        fill=False,
+        **bar_properties
+    )
+
+    ax.axhline(JC, linewidth=2, label="Joint Lotteries", color="navy")
+    ax.axhline(DC, linewidth=2, label="DC Keno", color="gold")
+
+    ax.set_xticks(np.arange(len(requirements)) * 1.25 - 0.25, requirements.keys())
+    # ax.set_yticks([512, 1024, 2048, 4096, 8192], [512, 1024, 2048, 4096, 8192])
+    ax.set_ylabel("Millions of 1-49 numbers")
+
+    ax.legend(
+        loc="upper right"
+    )
 
     plt.show()
 
@@ -260,59 +289,14 @@ def plot_pvalue_distributions():
     })
 
     bit_sources = [
-        "Joint Lotteries",
-        "DC Keno",
-        "NY Quick Draw",
-        "/dev/urandom 3M",
-        "/dev/urandom 15M"
+        ("/dev/urandom 15M", {"color": u'#9467bd'}),
+        ("/dev/urandom 3M",  {"color": u'#d62728'}),
+        ("NY Quick Draw",    {"color": "forestgreen"}),
+        ("Joint Lotteries",  {"color": "navy"}),
+        ("DC Keno",          {"color": "gold"})
     ]
 
     p_values = [
-        np.array(   # Joint lotteries
-            [0.] * 1   # Collective number of zero p-values collected across all tests
-            + [0.899470, 0.205562, 0.781201, 0.999989, 1.000000, 0.999997, 1.000000, 1.000000, 1.000000, 1.000000]    # Parking
-            + [0.166952, 0.533278, 0.018036, 0.124910, 0.724003, 0.483606, 0.111519, 0.206068, 0.000068, 0.000008,
-               0.000155, 0.813621, 0.033500, 0.000468, 0.000606, 0.000003, 0.018697, 0.001056, 0.000710, 0.000195]  # 3D Spheres
-            + [0.000249, 0.151731, 0.392932, 0.007543, 0.417294, 0.772924, 0.008993, 0.125059, 0.000000, 0.000000]  # Overlapping sums
-            + [0.981149, 0.904974, 0.000000, 0.000000]  # Runs
-        ),
-        np.array(   # DC Keno
-            [0.] * 27   # All Rank 6x8, Count 1s
-            + [0.541271, 0.068902, 0.530540, 0.946908, 0.825604, 0.562559, 0.104863, 0.899733, 0.197744]    # Birthday
-            + [0.882429, 0.958644, 0.831196, 0.642555, 0.863437, 0.944998, 0.676028, 0.374623, 0.767486, 0.999186]    # Parking
-            + [0.614374, 0.587119, 0.095097, 0.190983, 0.649011, 0.398152, 0.816170, 0.008576, 0.319404, 0.076079,
-               0.769168, 0.057085, 0.516542, 0.537590, 0.148601, 0.314576, 0.370156, 0.933385, 0.394321, 0.436331]  # 3D Spheres
-            + [0.000000, 0.000000, 0.000000, 0.000001, 0.000220, 0.000000, 0.000000, 0.000000, 0.002348, 0.000108]  # Overlapping RUns
-            + [0.274252, 0.697789, 0.319506, 0.442761]  # Runs
-            + [1.] * 1
-        ),
-        np.array(   # NY Quick Draw
-            [0.] * (9 + 19 + 25 + 23 + 28 + 31 + 1 + 3 + 1 + 3)    # All Birthdays, All Rank 6x8, all Bitstream, all Monkey, Count 1s, 3 Mindist, Squeeze, 3 Runs, 1 Craps
-            + [0.864]   # Rank 31x31
-            + [0.954]   # Rank 32x32
-            + [0.000000, 0.000172, 0.000002, 0.000202, 0.000005, 0.000033, 0.000050, 0.000054, 0.000383, 0.000000,
-               0.000031, 0.000120, 0.000840, 0.000464, 0.000024, 0.000047, 0.000060, 0.000000, 0.000003, 0.000008]  # Mindist
-            + [0.000423, 0.001766, 0.001634, 0.000031, 0.000034, 0.010907, 0.000119, 0.000587, 0.000614, 0.000002,
-               0.000022, 0.000537, 0.000367, 0.000566, 0.000032, 0.000880, 0.000547, 0.000879, 0.000548, 0.000070]  # 3D Spheres
-            + [0.000000, 0.000000, 0.000000, 0.000000, 0.000000, 0.000000, 0.000000, 0.000000, 0.000000, 0.000000]  # Overlapping sums
-            + [0.000001]
-            + [1.] * (10 + 1) # All Parking, 1 Craps
-        ),
-        np.array(   # /dev/urandom 3M
-            [0.348718, 0.111287, 0.184292, 0.620304, 0.550322, 0.941748, 0.311596, 0.859726, 0.443114]    # Birthdays
-            + [0.043581, 0.390324, 0.716402, 0.057192, 0.015145, 0.921085, 0.607242, 0.580108, 0.062324, 0.148309,
-               0.925389, 0.551145, 0.640269, 0.807229, 0.406862, 0.407707, 0.727363, 0.720685, 0.092005, 0.580141,
-               0.250703, 0.986889, 0.627056, 0.261831, 0.218085]    # Rank 6x8
-            + [0.686100]    # Count 1s
-            + [0.118983, 0.835505, 0.463574, 0.659615, 0.988854, 0.403083, 0.131870, 0.561444, 0.917328, 0.760479,
-               0.458941, 0.841077, 0.884443, 0.586755, 0.280323, 0.587651, 0.959726, 0.927346, 0.657893, 0.502601,
-               0.303784, 0.501667, 0.168551, 0.227245, 0.517251]    # Count 1s Stream
-            + [0.676028, 0.357445, 0.980051, 0.590298, 0.291865, 0.842447, 0.192812, 0.831196, 0.427537, 0.392053]  # Parking
-            + [0.450357, 0.982956, 0.154505, 0.693506, 0.938720, 0.484377, 0.412830, 0.697878, 0.276081, 0.475469,
-               0.950946, 0.711610, 0.837260, 0.727367, 0.762694, 0.884349, 0.965807, 0.238359, 0.415582, 0.530474]  # 3D Spheres
-            + [0.469496, 0.213569, 0.792062, 0.908212, 0.940481, 0.811764, 0.918508, 0.296839, 0.593965, 0.401768]  # Overlapping Sums
-            + [0.496771, 0.187828, 0.576015, 0.846748]  # Runs
-        ),
         np.array(   # /dev/urandom 15M
               [0.403685, 0.082346, 0.724733, 0.145476, 0.207411, 0.659017, 0.579853, 0.313638, 0.669233]  # Birthdays
             + [0.654]   # Rank 31x31
@@ -343,26 +327,84 @@ def plot_pvalue_distributions():
             + [0.976108, 0.082778, 0.827780, 0.308613, 0.063533, 0.090693, 0.131835, 0.138024, 0.311349, 0.065625]  # Overlapping sums
             + [0.818870, 0.263975, 0.034056, 0.935695]  # Runs
             + [0.172496, 0.561812]  # Craps
-        )
+        ),
+        np.array(   # /dev/urandom 3M
+            [0.348718, 0.111287, 0.184292, 0.620304, 0.550322, 0.941748, 0.311596, 0.859726, 0.443114]    # Birthdays
+            + [0.043581, 0.390324, 0.716402, 0.057192, 0.015145, 0.921085, 0.607242, 0.580108, 0.062324, 0.148309,
+               0.925389, 0.551145, 0.640269, 0.807229, 0.406862, 0.407707, 0.727363, 0.720685, 0.092005, 0.580141,
+               0.250703, 0.986889, 0.627056, 0.261831, 0.218085]    # Rank 6x8
+            + [0.686100]    # Count 1s
+            + [0.118983, 0.835505, 0.463574, 0.659615, 0.988854, 0.403083, 0.131870, 0.561444, 0.917328, 0.760479,
+               0.458941, 0.841077, 0.884443, 0.586755, 0.280323, 0.587651, 0.959726, 0.927346, 0.657893, 0.502601,
+               0.303784, 0.501667, 0.168551, 0.227245, 0.517251]    # Count 1s Stream
+            + [0.676028, 0.357445, 0.980051, 0.590298, 0.291865, 0.842447, 0.192812, 0.831196, 0.427537, 0.392053]  # Parking
+            + [0.450357, 0.982956, 0.154505, 0.693506, 0.938720, 0.484377, 0.412830, 0.697878, 0.276081, 0.475469,
+               0.950946, 0.711610, 0.837260, 0.727367, 0.762694, 0.884349, 0.965807, 0.238359, 0.415582, 0.530474]  # 3D Spheres
+            + [0.469496, 0.213569, 0.792062, 0.908212, 0.940481, 0.811764, 0.918508, 0.296839, 0.593965, 0.401768]  # Overlapping Sums
+            + [0.496771, 0.187828, 0.576015, 0.846748]  # Runs
+        ),
+        np.array(   # NY Quick Draw
+            [0.] * (9 + 19 + 25 + 23 + 28 + 31 + 1 + 3 + 1 + 3)    # All Birthdays, All Rank 6x8, all Bitstream, all Monkey, Count 1s, 3 Mindist, Squeeze, 3 Runs, 1 Craps
+            + [0.864]   # Rank 31x31
+            + [0.954]   # Rank 32x32
+            + [0.000000, 0.000172, 0.000002, 0.000202, 0.000005, 0.000033, 0.000050, 0.000054, 0.000383, 0.000000,
+               0.000031, 0.000120, 0.000840, 0.000464, 0.000024, 0.000047, 0.000060, 0.000000, 0.000003, 0.000008]  # Mindist
+            + [0.000423, 0.001766, 0.001634, 0.000031, 0.000034, 0.010907, 0.000119, 0.000587, 0.000614, 0.000002,
+               0.000022, 0.000537, 0.000367, 0.000566, 0.000032, 0.000880, 0.000547, 0.000879, 0.000548, 0.000070]  # 3D Spheres
+            + [0.000000, 0.000000, 0.000000, 0.000000, 0.000000, 0.000000, 0.000000, 0.000000, 0.000000, 0.000000]  # Overlapping sums
+            + [0.000001]
+            + [1.] * (10 + 1) # All Parking, 1 Craps
+        ),
+        np.array(   # Joint lotteries
+            [0.] * 1   # Collective number of zero p-values collected across all tests
+            + [0.899470, 0.205562, 0.781201, 0.999989, 1.000000, 0.999997, 1.000000, 1.000000, 1.000000, 1.000000]    # Parking
+            + [0.166952, 0.533278, 0.018036, 0.124910, 0.724003, 0.483606, 0.111519, 0.206068, 0.000068, 0.000008,
+               0.000155, 0.813621, 0.033500, 0.000468, 0.000606, 0.000003, 0.018697, 0.001056, 0.000710, 0.000195]  # 3D Spheres
+            + [0.000249, 0.151731, 0.392932, 0.007543, 0.417294, 0.772924, 0.008993, 0.125059, 0.000000, 0.000000]  # Overlapping sums
+            + [0.981149, 0.904974, 0.000000, 0.000000]  # Runs
+        ),
+        np.array(   # DC Keno
+            [0.] * 26   # All Rank 6x8, Count 1s
+            + [0.541271, 0.068902, 0.530540, 0.946908, 0.825604, 0.562559, 0.104863, 0.899733, 0.197744]    # Birthday
+            + [0.882429, 0.958644, 0.831196, 0.642555, 0.863437, 0.944998, 0.676028, 0.374623, 0.767486, 0.999186]    # Parking
+            + [0.614374, 0.587119, 0.095097, 0.190983, 0.649011, 0.398152, 0.816170, 0.008576, 0.319404, 0.076079,
+               0.769168, 0.057085, 0.516542, 0.537590, 0.148601, 0.314576, 0.370156, 0.933385, 0.394321, 0.436331]  # 3D Spheres
+            + [0.000000, 0.000000, 0.000000, 0.000001, 0.000220, 0.000000, 0.000000, 0.000000, 0.002348, 0.000108]  # Overlapping RUns
+            + [0.274252, 0.697789, 0.319506, 0.442761]  # Runs
+            + [1.] * 2
+        )        
     ]
 
     fig, ax = plt.subplots(figsize=(6, 6))
     ax.set_aspect("equal")
+    # fig.subplotpars.update(
+    #     top=1, left=0, right=1, bottom=0
+    # )
 
     epsilon = 0.05
     ax.set_xlim((0, 1+epsilon))
     ax.set_ylim((0, 1+epsilon))
     ax.spines['left'].set_bounds(low=0, high=1)
     ax.spines['bottom'].set_bounds(low=0, high=1)
+    ax.tick_params(
+        axis="both", which="both", top=False, left=True, right=False, bottom=True,
+        labeltop=False, labelleft=True, labelright=False, labelbottom=True
+    )
+    ax.set_xlabel("Percent of p-values counted")
+    ax.set_ylabel("p-values")
+    ax.set_xticks([0, 0.2, 0.4, 0.6, 0.8, 1], [0, 20, 40, 60, 80, 100])
     
+    artists = []
     ax.plot([0, 1], [0, 1], color="gray")
-    for source, name in zip(p_values, bit_sources):
+    for source, (name, kwargs) in zip(p_values, bit_sources):
         source.sort()
         xaxis = np.linspace(0, 1, num=len(source), endpoint=True)
-        ax.plot(xaxis, source, label=name, zorder=6)
+        artist, = ax.plot(xaxis, source, label=name, linewidth=2, zorder=6, **kwargs)
+        artists.append(artist)
     
     ax.legend(
         ncol=1,
+        handles=[artists[3], artists[4], artists[2], artists[1], artists[0]],
         bbox_to_anchor=(0.125, 0.24, 1, 1),
         bbox_transform=fig.transFigure,
         loc='center left'
