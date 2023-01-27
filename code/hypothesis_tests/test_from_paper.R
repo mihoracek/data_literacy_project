@@ -60,6 +60,7 @@ german_lotto_numbers_with_min_dist <- german_lotto_numbers_wide %>%
 # Count the occurrences of the values of d
 observed_counts <- table(german_lotto_numbers_with_min_dist$min_dist)
 
+# Compute the expected distribution of d
 n <- 49
 m <- 6
 
@@ -83,13 +84,12 @@ spain_c_expected_counts <- 6443 * expected_proportions
 # transform the data so that d = 7 and d = 8 are grouped together
 # so the expected count is greater than 5
 
-germany_expected_counts
-
 germany_expected_counts_transformed <- c(germany_expected_counts[1:6], germany_expected_counts[7] + germany_expected_counts[8])
+germany_observed_counts_transformed <- c(observed_counts[1:6], observed_counts[7] + observed_counts[8])
 
-germany_actual_counts_transformed <- c(observed_counts[1:6], observed_counts[7] + observed_counts[8])
-
-paper_test_results <- chisq.test(germany_actual_counts_transformed, p = germany_expected_counts_transformed, rescale.p = TRUE)
+# conduct the test
+paper_test_results <- chisq.test(germany_observed_counts_transformed, p = germany_expected_counts_transformed, 
+                                 rescale.p = TRUE)
 
 print(paper_test_results$p.value)
 print(paper_test_results$parameter)

@@ -58,8 +58,9 @@
 
 \begin{abstract}
     We investigate the uniformity of various lotteries. 
-    First, we consider Drakakis, Taylor, and Rickard's minimal distance between the winning numbers
-    as a test statistic, and apply it to the German Lotto data. \todo{We obtain the following p-value.}
+    First, we test the null hypothesis that, for the German Lotto, the distribution of the minimum distance between
+    lottery numbers, $d$, is as it would be in a uniformly sampled lottery. The $\chi^2_6$ goodness-of-fit
+    test resulted in a p-value of $0.4989$.
     Furthermore, to evaluate the randomness of the random number generators underlying different lotteries,
     we apply the Diehard battery of tests \todo{with the following results}.
 \end{abstract}
@@ -72,9 +73,13 @@
 \label{sec:dataset}
 \input{dataset.tex}
 
-\section{Distribution testing}
+\section{Methods}
 \label{sec:methods}
 \input{methods.tex}
+
+\section{Results}
+\label{sec:results}
+\input{results.tex}
 
 \section{Diehard tests}
 \label{sec:diehard}

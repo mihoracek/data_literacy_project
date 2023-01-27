@@ -1,15 +1,16 @@
-\subsection{Testing uniformity}
-
-\todo{QUESTION FOR MICHAEL: which test should we use, between: MINIMUM DISTANCE, BINNED SUMS, SIMPLE NUMBER FREQUENCIES.
-Is it okay if the analysis is essentially: replicating the methods in a paper, but on a new dataset?}
+\subsection{Testing the distribution of $d$}
 
 We conducted the following hypothesis test.
 
-$H_0$: each lottery number is drawn with equal probability.
+$H_0$: the distribution of $d$ is what it we expect when the lottery numbers are sampled uniformly.
 
-$H_A$: the lottery numbers are drawn with unequal probabilities: some numbers are more likely to appear than others.
+$H_A$: the distribution of $d$ is different.
 
-We used Pearson's $\chi^2$ test, a commonly recommended test for the probabilities of observing categorical data. \todo{Motivate the choice of this particular test.}
+We used Pearson's $\chi^2$ test, a commonly recommended test for the probabilities of observing categorical data. 
+This is a popular test for performing exactly the type of hypothesis test we intend to perform.
+Furthermore, it is the same type of test performed by Drakakis et al., which allows us to 
+check our (and their) results. We can also satisfy the assumptions of the $\chi^2$ test, and 
+follow the common rules-of-thumb for using the test. \todo{Motivate the choice of this particular test.}
 
 \subsubsection{Description of minimum-distance statistic.}
 
@@ -26,7 +27,7 @@ is highly unintuitive to humans: humans tend to underestimate how likely it is t
 two consecutive numbers are picked. In particular, Boland and Pawitan
 computed a $\chi^2$ goodness-of-fit statistic of the human-produced $d$ against the uniformly produced $d$
 , which if they had conducted a hypothesis test, would have yielded a 
-p-value of < 0.0000001. 
+p-value of $< 0.0000001$. 
 
 Therefore, a low p-value could be consistent with human tampering, especially if we
 observe an unusually small number of lottery drawings where $d = 1$, as Drakakis et al.
@@ -34,17 +35,29 @@ did in the French lottery.
 
 \subsubsection{Description of the test statistic.}
 
-\todo{Explain the $\chi^2$ goodness-of-fit test. 
-Include a table of the expected vs. observed frequencies.
-Report the results.}
+The $\chi^2$ goodness-of-fit test tests how well an expected discrete distribution fits
+an observed discrete distribution. 
 
-\todo{I would put the following paragraph into the distribution testing section, as its not relevant to my diehard part.}
+We computed the expected distribution using the following formula proved by Drakakis (2007).
+
+Let the lottery game be a sample of $m$ integers drawn from the integers $1,...,n$. 
+(In the German Lotto, $n = 49$ and $m = 6$.)
+Let  $r_1,...,r_m$ be the numbers drawn in the sample of size $m$.
+
+The minimum distance $d = min_{1 \leq i < j \leq m} | r_j - r_i |$ has the following distribution. For $k = 1,..., \lfloor \frac{n - 1}{m - 1} \rfloor$,
+
+$P(d < k) = 1 - \frac{{n - (k - 1)(m - 1) \choose m}}{{n \choose m}}$
+
+We define $\alpha = 0.05$ as our significance level because it is popular and Krakakis used
+the same significance level.
 
 To prepare the German Lotto dataset for the hypothesis test, we computed $d$, the minimum distance between winning numbers, for each 
 lottery day. We counted the frequencies of each value of $d$, and combined the counts of the 
-two largest possible values, $7$ and $8$. This is the same preparation that was performed in the paper,
+two largest possible values, $7$ and $8$. This is the same type of data preparation that was performed in the paper,
 and we did it to satisfy the common rule of thumb for usage of the 
 $\chi^2$ goodness-of-fit test: the expected frequency in each bin must be $\geq 5$.
+
+This prepration yielded the dataset in Table 1.
 
 \begin{table}
 
@@ -66,39 +79,8 @@ $\chi^2$ goodness-of-fit test: the expected frequency in each bin must be $\geq 
     \end{tabular}
     \end{table}
 
-% \todo{Decide whether we should specify the multivariate hypergeometric assumption.
-% Decide whether this assumption would change the degrees of freedom (at the moment, I think it wouldn't).}
-
-% We are interested in whether each of the lottery numbers appear with equal probability.
-% However, each sample of 6 balls from the lottery bowl is sampled without replacement. 
-% Therefore, within a single lottery drawing, the balls are *not* independent. 
-
-% In particular, we model the lottery drawing with a multivariate hypergeometric distribution. \todo{Give a more detailed explanation of this distribution, and argue that it's appropriate.}
-
-% The multivariate hypergeometric distribution models the following situation: given an urn filled with balls of 
-% different colors, sample $n$ balls without replacement from the urn. How many balls of each color are in the sample?
-
-% This is analogous to the lottery, when we consider the lottery bowl as the urn and the numbers on the balls as the colors.
-
-% The assumption that each color is equally likely to be drawn is built into this distribution: only the number of balls of each color affects the probability of that color being drawn.
-% Therefore, the multivariate hypergeometric distribution is an appropriate choice to test the null hypothesis.
-
-% More formally, the hypothesis test can be stated in the following way.
-
-% $H_0$: the lottery drawing follows a multivariate hypergeometric distribution with parameters: \todo{State the parameters}.
-
-% $H_A$: the lottery drawing does not follow a multivariate hypergeometric distribution.
-
-% Under $H_0$, we compute the following expected frequencies of each lottery number: \todo{Create a table with the expected frequencies.}
-
-The $\chi^2$ statistic is a function of how much our actual observed frequencies deviate from these expected frequencies. 
-Larger deviations result in higher values of the $\chi^2$ statistic and therefore lower p-values.
-
-\todo{Justify the choice of degrees of freedom.}
-
-\todo{Decide whether we should spell out the computation of the p-value, as if we computed it manually.}
-
-\todo{Report the value of the $\chi^2$ statistic and the p-value.}
+We estimated no parameters from the data, so we use
+$p - 1 = 7 - 1 = 6$ degrees of freedom for the $\chi^2$ statistic.
 
 \subsection{Diehard tests}
 
