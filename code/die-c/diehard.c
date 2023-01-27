@@ -135,7 +135,12 @@ void diehard()
   puts("\tThe legacy input system doesn't work and I am afraid to change it.");
   puts("\tProbably because it leaves whole lot of garbage after the last\n");
   puts("\tuser input character.");
-  char *fn = "../../data/bytes.bin";
+
+  // char *fn = "../../data/big_data/JointLotteries.bin";
+  char *fn = "../../data/big_data/DC_Keno.bin";
+  // char *fn = "../../data/big_data/NY_Quick_Draw.bin";
+  // char *fn = "../../data/big_data/urandom3M.bin";
+  // char *fn = "../../data/big_data/urandom15M.bin";
 
   puts("\n\t\tHERE ARE YOUR CHOICES:\n");
   puts("\t\t1   Birthday Spacings");
