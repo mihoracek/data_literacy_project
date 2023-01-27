@@ -94,6 +94,7 @@ paper_test_results <- chisq.test(germany_observed_counts_transformed, p = german
 print(paper_test_results$p.value)
 print(paper_test_results$parameter)
 
+# produce the table for the report
 values_of_d <- c(as.character(1:6), "7 and 8")
 expected_counts_for_table <- germany_expected_counts_transformed
 actual_counts_for_table <- germany_actual_counts_transformed
