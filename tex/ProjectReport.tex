@@ -27,6 +27,7 @@
 \usepackage{microtype}      % microtypography
 \usepackage{xcolor}         % colors
 \usepackage{graphicx}       % Extended version of graphics
+\usepackage{subcaption}
 
 \newcommand{\todo}[1]{\textcolor{red}{\textbf{#1}}}
 
@@ -77,9 +78,9 @@
 \label{sec:methods}
 \input{methods.tex}
 
-\section{Results}
-\label{sec:results}
-\input{results.tex}
+% \section{Results}
+% \label{sec:results}
+% \input{results.tex}
 
 \section{Diehard tests}
 \label{sec:diehard}
@@ -88,6 +89,8 @@
 \section{Conclusion}
 \label{sec:conclusion}
 \input{conclusion.tex}
+
+\newpage
 
 \bibliography{sources.bib}
 \bibliographystyle{unsrt}
