@@ -55,18 +55,24 @@ ny_quick_draw_all <- bind_rows(ny_quick_draw_2013, ny_quick_draw_2014,
                                ny_quick_draw_2021, ny_quick_draw_2022,
                                ny_quick_draw_2023)
 
+# new column names
 quick_draw_number_col_names <- paste("Number", 1:20, sep = "_")
 
+# separate the numbers so each
+# has its own column
 ny_quick_draw_all_wide <- ny_quick_draw_all %>%
   separate(`Winning Numbers`, into = quick_draw_number_col_names,
            sep = " ") 
 
+# convert the data types from characters to numbers
 ny_quick_draw_all_wide_numeric <- ny_quick_draw_all_wide %>%
   mutate(across(starts_with("Number_"), as.numeric))
 
+# used to paste into the min_distance() call that happens next
 str_for_pasting <- paste("c(", paste(quick_draw_number_col_names, collapse = ", "),
                          ")", sep = "")
 
+# compute min_distance and add it as a column
 ny_quick_draw_all_with_min_dist <- ny_quick_draw_all_wide_numeric %>%
   rowwise() %>%
   mutate(min_dist = min_distance(c(Number_1, Number_2, Number_3, Number_4, Number_5, 
@@ -74,6 +80,8 @@ ny_quick_draw_all_with_min_dist <- ny_quick_draw_all_wide_numeric %>%
                                    Number_11, Number_12, Number_13, Number_14, Number_15, 
                                    Number_16, Number_17, Number_18, Number_19, Number_20)))
 
+# compute the observed counts
+# combine frequencies when necessary
 ny_quick_draw_all_observed_counts <- table(ny_quick_draw_all_with_min_dist$min_dist)
 ny_quick_draw_all_observed_counts_transformed <- unname(c(ny_quick_draw_all_observed_counts[1],
                                                    ny_quick_draw_all_observed_counts[2]))
@@ -83,16 +91,20 @@ m <- 20
 
 acc <- 0
 
+# k ranges from 1 to {this value + 1}
+# and we know only the probability P(d < k)
+# so this should be the maximum value of d
 max_d <- floor((n-1)/(m-1)) - 1
 expected_proportions <- vector(mode = "double", length = max_d)
-
+# compute the probabilities using the formula in the paper
 for (i in 1:max_d) {
   prob_less_than_k <- 1 - ( choose(n - i*(m - 1), m) / choose(n, m))
   
   expected_proportions[i] <- prob_less_than_k - acc
   acc <- acc + expected_proportions[i]
 }
-
+# compute the expected counts
+# combine frequencies when necessary
 ny_quick_draw_all_expected_counts <- expected_proportions * nrow(ny_quick_draw_all_with_min_dist)
 ny_quick_draw_all_expected_counts_transformed <- c(ny_quick_draw_all_expected_counts[1], 
 ny_quick_draw_all_expected_counts[2] + ny_quick_draw_all_expected_counts[3])
@@ -101,10 +113,12 @@ ny_quick_draw_all_test_results <- chisq.test(x = ny_quick_draw_all_observed_coun
                                              p = ny_quick_draw_all_expected_counts_transformed,
                                              rescale.p = TRUE)
 
+# TEST RESULTS
 ny_quick_draw_all_test_results
 ny_quick_draw_all_test_results$p.value
 ny_quick_draw_all_test_results$parameter
 
+# make LaTeX table
 values_of_d <- c("1", "2 and 3")
 observed_counts_for_table <- ny_quick_draw_all_observed_counts_transformed
 expected_counts_for_table <- ny_quick_draw_all_expected_counts_transformed
@@ -116,57 +130,6 @@ table_for_report <- data.frame("d" = values_of_d,
 kbl_code <- kbl(t(table_for_report), booktabs = T, format = "latex",
                 caption = "Frequencies of $d$ statistic for NY Quick Draw 2013-2023")
 
-print(kbl_code)
-
-# dc_keno_2020 <- read_csv("../../data/DC_Keno_2020.csv")
-# 
-# first_row_dc_2020 <- dc_keno_2020[1, ]$`Winning Numbers` %>% 
-#   str_split(pattern = " ")
-#   
-# dc_keno_number_col_names <- paste("Number", 1:21, sep = "_")
-# 
-# dc_keno_2020_wide <- dc_keno_2020 %>%
-#   separate(`Winning Numbers`, into = dc_keno_number_col_names,
-#            sep = " ") %>%
-#   select(-c("Number_21"))
-# 
-# dc_keno_2020_wide_numeric <- dc_keno_2020_wide %>%
-#   mutate(across(starts_with("Number_"), as.numeric))
-# 
-# str_for_pasting <- paste("c(", paste(dc_keno_number_col_names, collapse = ", "),
-#                          ")", sep = "")
-
-# WARNING: DC KENO IS UNSORTED
-
-# dc_keno_2020_with_min_dist <- dc_keno_2020_wide_numeric %>%
-#   rowwise() %>%
-#   mutate(min_dist = min_distance(c(Number_1, Number_2, Number_3, Number_4, Number_5, 
-#                                    Number_6, Number_7, Number_8, Number_9, Number_10, 
-#                                    Number_11, Number_12, Number_13, Number_14, Number_15, 
-#                                    Number_16, Number_17, Number_18, Number_19, Number_20)))
-# 
-# dc_keno_2020_with_min_dist_observed_counts <- table(dc_keno_2020_with_min_dist$min_dist)
-# 
-# n <- 80
-# m <- 20
-# 
-# acc <- 0
-# 
-# max_d <- floor((n-1)/(m-1)) - 1
-# expected_proportions <- vector(mode = "double", length = max_d)
-# 
-# for (i in 1:max_d) {
-#   prob_less_than_k <- 1 - ( choose(n - i*(m - 1), m) / choose(n, m))
-#   
-#   expected_proportions[i] <- prob_less_than_k - acc
-#   acc <- acc + expected_proportions[i]
-# }
-# 
-# ny_quick_draw_2013_expected_counts <- expected_proportions * nrow(ny_quick_draw_2013_with_min_dist)
-# ny_quick_draw_2013_expected_counts_transformed <- c(ny_quick_draw_2013_expected_counts[1], 
-#                                                     ny_quick_draw_2013_expected_counts[2] + ny_quick_draw_2013_expected_counts[3])
-# 
-# ny_quick_draw_2013_test_results <- chisq.test(x = ny_quick_draw_2013_observed_counts, p = ny_quick_draw_2013_expected_counts_transformed,
-#                                               rescale.p = TRUE)
+# print(kbl_code)
 
 

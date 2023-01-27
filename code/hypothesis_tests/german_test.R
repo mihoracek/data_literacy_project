@@ -78,12 +78,13 @@ for (i in 1:max_d) {
 }
 
 germany_expected_counts <- expected_proportions * max(german_lotto_numbers_raw$id)
+# manually check these against Drakakis's paper
+# describing this test
 france_expected_counts <- 4858 * expected_proportions
 spain_c_expected_counts <- 6443 * expected_proportions
 
 # transform the data so that d = 7 and d = 8 are grouped together
 # so the expected count is greater than 5
-
 germany_expected_counts_transformed <- c(germany_expected_counts[1:6], germany_expected_counts[7] + germany_expected_counts[8])
 germany_observed_counts_transformed <- c(observed_counts[1:6], observed_counts[7] + observed_counts[8])
 
@@ -91,6 +92,7 @@ germany_observed_counts_transformed <- c(observed_counts[1:6], observed_counts[7
 paper_test_results <- chisq.test(germany_observed_counts_transformed, p = germany_expected_counts_transformed, 
                                  rescale.p = TRUE)
 
+# TEST RESULTS
 print(paper_test_results$p.value)
 print(paper_test_results$statistic)
 print(paper_test_results$parameter)
@@ -112,4 +114,4 @@ colnames(table_for_report) <- NULL
 kbl_code <- kbl(table_for_report, booktabs = T, format = "latex",
                 caption = "Frequencies of $d$ statistic for German Lotto")
 
-print(kbl_code)
+# print(kbl_code)
