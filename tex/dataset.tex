@@ -1,40 +1,19 @@
-Section \ref{sec:methods} investigates numbers drawn from the German lottery Lotto, from 1955 onwards. 
-We have chosen this dataset because it is relevant to us and readers of this analysis as current residents of Germany, 
-and it contains almost 70 years of data, which we believ is enough data to perform a meaningful analysis.
+We began with the winning numbers of the German lottery Lotto, which are tracked at~\cite{lottoarchive} from 1955 onwards.
+It became apparent early on, that much more data will be required, so we added numbers from other lotteries. Ultimately
+we have collected 37 different lotteries, which in total provide almost 30 million numbers.
 
-Furthermore, Drakakis, Taylor, and Rickard did not apply their tests to this data, so 
-performing the test on the German Lotto data is a meaningful new result.
-
-The dataset has been compiled by Johannes Friedrich, 
-a software developer who has made the data publicly available via 
-\href{https://github.com/JohannesFriedrich/LottoNumberArchive}{his Github repository}.
-
-\todo{Perform verification of the correctness of the dataset by sampling from it and manually inspecting the data.}
-
-\todo{Is there a dataset for a rigged lottery?} \href{https://notebook.community/JesseScott/Lotto649/lotto}{This} looks sketchy as hell.
-
-However even 70 years of Lotto numbers is not sufficient to produce enough data for the diehard tests. Their author recommends
-using 10 to 12 MB of random bits, which is substantially more than 28.4 KiB of Lotto numbers. Therefore we add winning numbers
-from other lotteries to our dataset. By data volume, our data is dominated by the New York Quick Draw lottery, because it has
-been drawn every 4 minutes for the last decade, adding up to to 25,663,100 numbers at our collection of the dataset.
-Washington DC's Keno is quite similar, reaching 2,299,563 numbers over 3 years of existence. Our dataset is completed by
+By volume, our data is dominated by the New York Quick Draw lottery, because it has been drawn every 4 minutes
+for the last decade, adding up to to 25,663,100 numbers at our collection of the dataset.
+Washington DC's Keno functions similarly, reaching 2,299,563 numbers over 3 years of existence. Our dataset is completed by
 the "other" category, consisting of 1,917,890 winning numbers combined from lotteries drawn less often worldwide.
 
-\begin{figure}
-    \centering
-    \includegraphics[width=\textwidth]{dataset_composition.pdf}
-    \caption{Origin of numbers making up our dataset.}
-    \label{fig:dataset}
-\end{figure}
-
-The "other" dataset comes from European or english-speaking countries. The reason is twofold - we have been looking
+Our entire dataset originates from West-aligned countries. The reason is twofold - we have been looking
 for them with English search queries and these nations are more likely to subscribe to ideas like open data and thus
-offer such dataset as csv files. The European nationality stands for European transnational lotteries Eurojackpot and Euromillions.
+offer such dataset as CSV files.
 
-\begin{figure}
-    \centering
-    \includegraphics[width=\textwidth]{other_composition.pdf}
-    \caption{National composition of the "other" numbers.}
-\end{figure}
-
-In total, we have gathered winning numbers from 37 different lotteries.
+% \begin{figure}[t]
+%     \centering
+%     \includegraphics[width=\textwidth]{dataset_composition.pdf}
+%     \caption{Origin of numbers making up our dataset.}
+%     \label{fig:dataset}
+% \end{figure}
