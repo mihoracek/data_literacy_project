@@ -97,11 +97,11 @@ print(paper_test_results$parameter)
 # produce the table for the report
 values_of_d <- c(as.character(1:6), "7 and 8")
 expected_counts_for_table <- germany_expected_counts_transformed
-actual_counts_for_table <- germany_actual_counts_transformed
+observed_counts_for_table <- germany_observed_counts_transformed
 
 table_for_report <- data.frame("d" = values_of_d,
            "Expected frequency" = expected_counts_for_table,
-           "Actual frequency" = actual_counts_for_table,
+           "Actual frequency" = observed_counts_for_table,
            check.names = FALSE)
 
 # write_csv(table_for_report, "table_for_report.csv")
