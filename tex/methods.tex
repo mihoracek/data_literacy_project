@@ -1,25 +1,15 @@
-\subsection{Testing the distribution of $d$}
+We conducted a hypothesis test. Null hypothesis $H_0$ assumes that lottery numbers are sampled uniformly,
+alternative hypothesis $H_A$ assumes the opposite. We used Pearson's $\chi^2$ test, a commonly recommended
+test for the probabilities of observing categorical data (\todo{sOuRcE?}). Furthermore, it is the same type
+of test performed by Drakakis et al.~\cite{Drakakis}, which allows us to check our (and their) results.
+% We can also satisfy the assumptions of the $\chi^2$ test, and 
+% follow the common rules-of-thumb for using the test. \todo{Motivate the choice of this particular test.}
 
-We conducted the following hypothesis test.
-
-$H_0$: the distribution of $d$ is what it we expect when the lottery numbers are sampled uniformly.
-
-$H_A$: the distribution of $d$ is different.
-
-We used Pearson's $\chi^2$ test, a commonly recommended test for the probabilities of observing categorical data. 
-This is a popular test for performing exactly the type of hypothesis test we intend to perform.
-Furthermore, it is the same type of test performed by Drakakis et al., which allows us to 
-check our (and their) results. We can also satisfy the assumptions of the $\chi^2$ test, and 
-follow the common rules-of-thumb for using the test. \todo{Motivate the choice of this particular test.}
-
-\subsubsection{Description of minimum-distance statistic.}
+\subsection{Minimum-distance statistic}
 
 To create the frequency tables for the $\chi^2 test$, we used the minimum distance statistic $d$ used by Drakakis et al.
-
-\todo{write the definition from Drakakis et al.}
-
 This statistic is useful for detecting human tampering because it is known that humans usually do a
-poor job of imitating the random choices that occur under the null hypothesis. Boland and Pawitan showed
+poor job of imitating the random choices that occur under the null hypothesis. Boland and Pawitan \todo{cite} showed
 that when humans are asked to sample $m$ integers from the set ${1,...,n}$, the value
 of this statistic is greater on average than it is under uniform sampling. In particular,
 they observed that the true probability of $d = 1$ is greater than $0.5$, a result that 
@@ -33,20 +23,21 @@ Therefore, a low p-value could be consistent with human tampering, especially if
 observe an unusually small number of lottery drawings where $d = 1$, as Drakakis et al.
 did in the French lottery. 
 
-\subsubsection{Description of the test statistic.}
+\subsection{The test statistic}
 
 The $\chi^2$ goodness-of-fit test tests how well an expected discrete distribution fits
-an observed discrete distribution. 
-
-We computed the expected distribution using the following formula proved by Drakakis (2007).
+an observed discrete distribution. We computed the expected distribution using the following formula proved by Drakakis (2007) \todo{cite}.
 
 Let the lottery game be a sample of $m$ integers drawn from the integers $1,...,n$. 
-(In the German Lotto, $n = 49$ and $m = 6$.)
-Let  $r_1,...,r_m$ be the numbers drawn in the sample of size $m$.
-
-The minimum distance $d = min_{1 \leq i < j \leq m} | r_j - r_i |$ has the following distribution. For $k = 1,..., \lfloor \frac{n - 1}{m - 1} \rfloor$,
-
-$P(d < k) = 1 - \frac{{n - (k - 1)(m - 1) \choose m}}{{n \choose m}}$
+(In the German Lotto, $n = 49$ and $m = 6$.) Let  $r_1,...,r_m$ be the numbers drawn in the sample of size $m$.
+The minimum distance
+\begin{equation}
+    d = min_{1 \leq i < j \leq m} | r_j - r_i |
+\end{equation}
+has the following distribution
+\begin{equation}
+     P(d < k) = 1 - \frac{{n - (k - 1)(m - 1) \choose m}}{{n \choose m}}, \quad k = 1,..., \left\lfloor \frac{n - 1}{m - 1} \right\rfloor.
+\end{equation}
 
 We define $\alpha = 0.05$ as our significance level because it is popular and Krakakis used
 the same significance level.
@@ -55,33 +46,27 @@ To prepare the German Lotto dataset for the hypothesis test, we computed $d$, th
 lottery day. We counted the frequencies of each value of $d$, and combined the counts of the 
 two largest possible values, $7$ and $8$. This is the same type of data preparation that was performed in the paper,
 and we did it to satisfy the common rule of thumb for usage of the 
-$\chi^2$ goodness-of-fit test: the expected frequency in each bin must be $\geq 5$.
-
-This prepration yielded the dataset in Table 1.
+$\chi^2$ goodness-of-fit test: the expected frequency in each bin must be $\geq 5$. This prepration yielded the dataset in Table \ref{tab:frequencies}.
 
 \begin{table}
-
-    \caption{Frequencies of $d$ statistic for German Lotto}
     \centering
+    \caption{Frequencies of $d$ statistic for German Lotto}
     \begin{tabular}[t]{lrr}
-    \toprule
-    d & Expected frequency & Actual frequency\\
-    \midrule
-    1 & 2310.595965 & 2383\\
-    2 & 1266.759926 & 1247\\
-    3 & 639.888057 & 615\\
-    4 & 290.255446 & 273\\
-    5 & 113.589766 & 105\\
-    \addlinespace
-    6 & 35.857667 & 35\\
-    7 and 8 & 9.025145 & 8\\
-    \bottomrule
+        \toprule
+        d & Expected frequency & Actual frequency\\
+        \midrule
+        1 & 2310.595965 & 2383\\
+        2 & 1266.759926 & 1247\\
+        3 & 639.888057 & 615\\
+        4 & 290.255446 & 273\\
+        5 & 113.589766 & 105\\
+        \addlinespace
+        6 & 35.857667 & 35\\
+        7 and 8 & 9.025145 & 8\\
+        \bottomrule
     \end{tabular}
-    \end{table}
+    \label{tab:frequencies}
+\end{table}
 
 We estimated no parameters from the data, so we use
 $p - 1 = 7 - 1 = 6$ degrees of freedom for the $\chi^2$ statistic.
-
-\subsection{Diehard tests}
-
-For more information about the Diehard battery of tests we refer the reader to the original paper~\cite{currentRNG}.
