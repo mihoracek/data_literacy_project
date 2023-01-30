@@ -16,3 +16,9 @@
 *.out
 *.synctex.gz
 *.toc
+
+notes.txt
+data/lottery_numbers.txt
+data/bytes.bin
+data/big_data/**
+data/countries/**

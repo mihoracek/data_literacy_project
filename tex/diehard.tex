@@ -1,48 +1,37 @@
-Fairness entails more than the question whether are lottery numbers from the expected distribution. We need to search for deeper patterns in the data.
-Thus a more comprehensive test is required to establish a more detailed answer to our question. We reformulate winning numbers
-of a lottery as a stream of (supposedly) random bits. This enables us to deploy standard statistical suites for testing pseudo random number
-generators.
+% Fairness entails more than the question of whether are lottery numbers from the expected distribution. We need to search for deeper patterns in the data. Thus, a more comprehensive test is required. We reformulate winning numbers of a lottery as a stream of random bits. This allows us to deploy standard statistical suites for testing RNGs.
 
-Donald Knuth presented an initial set of empirical tests in the second volume of his computer science bible The Art of Computer Programming in 1969.
-Since then numerous new test suites have been developed~\cite{HAC,NISTBible,dieharder,testu01}. We decided to use George Marsaglia's
-Diehard battery of tests~\cite{diehard}. Diehard has been superceded by newer tests for its original purpose~\cite{dieharder}, however
-it remains the best choice for us because it requires the least amount of data to run as illustrated in Figure \ref{fig:requirements}
-and~\cite{datasize-dieharder}. Nonetheless even less data greedy test still requires quite a lot of data.
-We are thus limited in which tests we can run given our dataset size.
+Fairness entails more than the question of whether lottery numbers appear with the same frequency, so more comprehensive tests are required to detect deeper patterns. We use RNG testing suites to further test the fairness of lotteries.
+
+% Donald Knuth presented an initial set of empirical tests in the second volume of his computer science bible The Art of Computer Programming in 1969. Since then, numerous new test suites have been developed~\cite{HAC,NISTBible,dieharder,testu01}. We decided to use George Marsaglia's Diehard battery of tests~\cite{diehard}. Diehard has been superseded by newer tests for its original purpose~\cite{dieharder}, however it remains the best choice for us because it requires the least amount of data to run~\cite{datasize-dieharder}. Nonetheless even Diehard still requires a substantial amount of data. We are thus limited in which tests we can run given our dataset size.
+
+We used Marsaglia's Diehard battery of tests ~\cite{diehard} because of its popularity~\cite{dieharder}, and because it requires the least amount of data to run~\cite{datasize-dieharder}. Even so, given the time constraints of this project and the fact that there does not exist so much publicly available lottery data, we were unable to collect enough data to run the entire battery of tests.
 \begin{figure}
     \centering
     \includegraphics[width=\textwidth]{diehard_requirements.pdf}
-    \caption{Amount of data required to run tests at default settings.}
+    \caption{Amount of data required to run Diehard tests at default settings and dataset size. NY Quick Draw dataset is not present because at over 32 million numbers it falls out of scope.}
     \label{fig:requirements}
 \end{figure}
-\todo{Transform figure into number of standard draws 1-49}
 
 \subsection{Data augmentation}
 
-Diehard battery expects a random stream of zero and one bits as input. We therefore require a function which produces uniformly
-distributed bit sequences from lottery numbers. Because it is impossible to directly transform a discrete $\mathcal{U}(1, 49)$
-of lottery numbers into $\mathcal{U}(0, 31)$ (the uniform distribution for 5-tuples of bits) we simply reject all numbers greater
-than 32 and substract one from the rest. This causes a fair amount of data loss, but we do not see a better way.
-(If a lottery draws from interval e.g. 1-80, we can throw away everything greater than 64 and get uniform distribution of bit 6-tuples.)
+% The Diehard battery accepts a stream of bits as input. Therefore we require a function which produces uniformly distributed bit sequences from lottery numbers. To prevent any distortions to uniformity, we reject all numbers greater than 32 for 1-49 lotteries or 64 for 1-80 lotteries. We subtract one from those we keep and obtain a uniformly distributed sequence of five, respectively six bits per number. This causes a loss of about 20 \% of data, but we do not see a better way.
+
+The Diehard tests accept streams of bits as input, so we use the binary representations of the lottery numbers.  However, we discard numbers $>$ 32 for 1-49 lotteries and $>$ 64 for 1-80 lotteries. Otherwise, the higher bits would not have equal probabilities of being active and inactive (in the 1-49 case, we would expect $\frac{17}{49} \neq \frac{1}{2}$ of the numbers to have $1$ in the highest bit). We discarded about 20 \% of our data for this reason, which exacerbated our problem of having too little data.
 
 \subsection{Results}
 
-The Diehard battery of tests provides 15 statistical tests. These tests operate with the null hypothesis that the data is truly random.
-Each of them outputs one or more p-values, which are uniformly distributed if the null hypothesis is correct~\cite{NISTBible}.
-In some cases, a Kolmogorov-Smirnov test is used to test for uniformity of p-values provide a single final, composite p-value. For more
-information on the nature of these tests, consult either the Diehard source code appended to this report or one of George Marsaglia various
-papers~\cite{monkey,mindist}.
+There are 15 Diehard tests in the battery. All these tests operate with the null hypothesis that the data is truly random. Each of them outputs one or more p-values, which are uniformly distributed under the null hypothesis~\cite{NISTBible}. Because each test measures randomness in a different way, it is common for a single dataset to pass some tests and not others (i.e. to observe wildly different p-values for the same dataset), especially because certain tests are easier to pass than the others. An example is the Overlapping Permutations Test, which divides the sequence into subsequences of 5 and tests whether each possible subsequence occurs with equal probability. For more information on the Diehard tests, consult either the project source code or one of Marsaglia's papers~\cite{monkey,mindist}.
 
-We compare our lottery datasets against randomness collected from /dev/urandom, the preferred source of randomness in Linux
-systems~\cite{manrandom,mythsrandom}. These datasets ensure that tests are working as intended and represent the best digital randomness
-available to the common man.
+As a baseline, we compare our lottery datasets against randomness collected from /dev/urandom, the standard source of randomness in Linux systems~\cite{manrandom,mythsrandom}. 
+
+% /dev/urandom represents the best source of digital randomness available to the common man and proves that the Diehard tests are working as intended.
 
 \begin{figure}
     \centering
     \captionsetup[subfigure]{justification=centering}
     \begin{subfigure}{0.495\textwidth}
         \includegraphics[width=\textwidth]{pvalue_distribution.pdf}
-        \subcaption{Randomness quality as measured by Diehard. Gray line is perfect randomness.}
+        \subcaption{All tests possible for each dataset.}
         \label{fig:pvalue_distribution}
     \end{subfigure}
     \hfill
@@ -51,30 +40,18 @@ available to the common man.
         \subcaption{Removed p-values from Binary Rank 6x8 test.}
         \label{fig:pvalue_corrected}
     \end{subfigure}
-    \caption{p-value distribution}
+    \caption{Distribution of p-values for datasets. Uniform distribution of perfect randomness in gray.}
 \end{figure}
 
-We immediately notice that the NY Quick Draw catastrophically failed to pass the Diehard tests. We believe this is caused
-by the structure of NY Quick Draw csv files. Each row contains 20 winning numbers of an individual draw, all sorted in ascending
-order. It is our opinion that Diehard identifies this ordering. This hypothesis is supported by the behaviour of Joint Lotteries
-on the Runs test. This test performs two runs and provides two p-value in each run. The first run is provided a 50 \% of drawn
-and 50 \% of ascending-order numbers, reports p-values of 0.981149 and 0.904974. The second run uses solely ascending-order
-numbers and both p-values become 0.
+We immediately notice that the NY Quick Draw catastrophically failed to pass the Diehard tests. We believe this is because the numbers are presented in sorted order, which is obviously non-random. This hypothesis is supported by the superior performance of drawn-order DC Keno dataset. In tests composed of multiple runs, the drawn-order part of Joint Lotteries dataset also results in much higher p-values than its ascending-order remainder.
 
-The DC Keno dataset which is entirely created from drawn-order CSV files displays a remarkable even slope after it starts rising.
-Curiously, the 25 of the 32 zero p-values for DC Keno come from the Binary Rank 6x8 test. If we disregard this test,
-the resulting p-values are fairly uniformly distributed, although the dataset still struggles at some of them, corresponding to
-20 \% of zero p-values. This is reasonable considering some enduring faults of the dataset (lottery drawn without replacement).
-
-The Joint Lotteries mixed dataset achieves somewhat worse performance in comparison with the DC Keno dataset. We interpret this
-evidence for the importance of using drawn-order input files as later runs of the same test visible degrade in performance
-since they work with ascending-order numbers.
+The DC Keno dataset displays a remarkable even slope after it starts rising. Moreover, the 25 of the 32 zero p-values for DC Keno come from the Binary Rank 6x8 test. If we disregard this test, the resulting p-values are fairly uniformly distributed, although the dataset still struggles at some of them, corresponding to 20 \% of zero p-values. This is reasonable considering some enduring faults of the dataset (lottery drawn without replacement).
 
 \subsection{Discussion}
 
-There is a great number of pitfalls to take into account. Some of them have already been addressed, such as data size,
-drawn/ascending order or lottery being drawn without replacement and thus not providing a truly uniformed distribution.
+There are many pitfalls to take into account. Some of them have already been addressed, such as data size, drawn/ascending order or lottery being drawn without replacement and thus not providing a truly uniform distribution.
 
-Furthermore, even the Diehard battery of tests possesses flaws of its own. Its critique can be found
-at~\cite{dieharder, critique}. For instance, Linear Feedback Shift Registers (a type of pseudorandom number
-generator) passes the Diehard battery of tests~\cite{LFSR}, despite being predictable and cryptographically weak.
+The Diehard tests were designed to be used together as a battery. In the case of our medium-sized dataset DC Keno, we base our observations on 81 out of 213 p-values produced by the entire Diehard battery due to aforementioned size constraints. This inevitably leads to inaccuracy. We do not know how certain are our results and cannot rule out a stroke of bad luck.
+
+Furthermore, even the Diehard battery of tests possesses flaws of its own. A critique can be found
+at~\cite{dieharder, critique}. For instance, Linear Feedback Shift Registers pass the Diehard battery of tests~\cite{LFSR} despite being predictable.

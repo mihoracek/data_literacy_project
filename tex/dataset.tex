@@ -1,15 +1,14 @@
-We began with the winning numbers of the German lottery Lotto, which are tracked at~\cite{lottoarchive} from 1955 onwards.
-It became apparent early on, that much more data will be required, so we added numbers from other lotteries. Ultimately
-we have collected 37 different lotteries, which in total provide almost 30 million numbers.
+We have collected data from 37 different lotteries organized in 30 unique countries, which in total provide over 32 million winning numbers.
 
-By volume, our data is dominated by the New York Quick Draw lottery, because it has been drawn every 4 minutes
-for the last decade, adding up to to 25,663,100 numbers at our collection of the dataset.
-Washington DC's Keno functions similarly, reaching 2,299,563 numbers over 3 years of existence. Our dataset is completed by
-the "other" category, consisting of 1,917,890 winning numbers combined from lotteries drawn less often worldwide.
+The German lottery Lotto, which is tracked at~\cite{lottoarchive} from 1955 onward, and on the New York Quick Draw lottery, which makes up the vast majority of our collected data: almost 26 million numbers.
+% 25,663,100 numbers at our collection of the dataset. % This is too long
 
-Our entire dataset originates from West-aligned countries. The reason is twofold - we have been looking
-for them with English search queries and these nations are more likely to subscribe to ideas like open data and thus
-offer such dataset as CSV files.
+The Diehard tests are applied to three datasets: the NY Quick Draw~\cite{NYLotteries}, Washington, DC's Keno (5,174,779 numbers)~\cite{DCKeno}, and 1,917,890 other winning numbers combined from worldwide lotteries, which make up the Joint Lotteries dataset~\cite{SKLotteries, UKLotteries, AULotteries, Eurojackpot}. The overwhelming majority of our data comes from official sources. As a sanity check, ~\cite{lottoarchive} does indeed match the actual results for 24.12.2022~\cite{christmas_eve_lotto}.
+
+Given the variety of sources, there are notable differences in their format. Some lotteries draw from the interval 1 - 80 instead of 1 - 49, and their draws are of various length. Most crucially, a portion of lottery CSV files record numbers in individual draws in draw order, while others sort them in an ascending order. We demonstrate that this has enormous impact on the results of Diehard tests.
+
+% I love my geopolitics corner but it doesn't fit :(
+% Our entire dataset originates from West-aligned countries. The reason is twofold - we have been looking for them with English search queries and these nations are more likely to subscribe to ideas like open data and thus offer such dataset as CSV files.
 
 % \begin{figure}[t]
 %     \centering
@@ -17,3 +16,6 @@ offer such dataset as CSV files.
 %     \caption{Origin of numbers making up our dataset.}
 %     \label{fig:dataset}
 % \end{figure}
+% processed NY 20,528,177
+% processed DC 4,189,822
+% processed JC 1,453,016

@@ -1,0 +1,84 @@
+\begin{table}
+
+\caption{Frequencies of $d$ statistic for German Lotto}
+\centering
+\begin{tabular}[t]{c|lllllll}
+% \toprule
+d & 1 & 2 & 3 & 4 & 5 & 6 & 7 and 8\\
+\hline
+Expected & 2310.596 & 1266.76 & 639.888 & 290.255 & 113.59 & 35.858 & 9.025\\
+Observed & 2383 & 1247 & 615 & 273 & 105 & 35 & 8\\
+% \bottomrule
+\end{tabular}
+\label{tab:frequencies_german}
+\end{table}
+
+For the German Lotto and NY Quick Draw, we conducted a hypothesis test where $H_0$ is true when lottery numbers are sampled with equal probability, and $H_A$ is true otherwise. We used Pearson's $\chi^2$ goodness-of-fit test because we can satisfy the assumptions and rules-of-thumb its usage, and it is the same test used in previous work, so our results can add on to theirs~\cite{Drakakis}. We used $\alpha = 0.05$ because it is popular and Drakakis et al. used the same $\alpha$.
+
+\subsection{Minimum-distance statistic}
+
+To create the frequency tables for the $\chi^2$ test (example in Table \ref{tab:frequencies_german}), we used the minimum distance statistic $d$ ~\cite{Drakakis} .
+It is useful for detecting human tampering because humans do a
+poor job of imitating its distribution under the null hypothesis. Boland and Pawitan ~\cite{trying_to_be_random} asked humans to simulate a lottery where $6$ numbers are sampled from $42$, and 
+computed a $\chi^2$ goodness-of-fit statistic of $36.45$ when comparing the human-produced $d$ against the uniformly produced $d$ (assuming $p - 1$ degrees of freedom, in a hypothesis test this would have a p-value of $< 0.0000001$).Therefore, a low p-value could be consistent with human tampering.
+
+We computed the expected distribution using the following formula~\cite{mindist_distribution}.
+
+Let the lottery game be a sample $r_1,...,r_m$ of $m$ integers drawn from the integers $1,...,n$. 
+(In the German Lotto, $n = 49$ and $m = 6$.)
+Then, $d$ has the following definition and distribution.
+\begin{equation}
+    d = \min_{1 \leq i < j \leq m} | r_j - r_i |\\
+\end{equation}
+\begin{equation}
+    P(d < k) = 1 - \frac{{n - (k - 1)(m - 1) \choose m}}{{n \choose m}}, \quad k = 1,..., \left\lfloor \frac{n - 1}{m - 1} \right\rfloor
+\end{equation}
+
+% \begin{table}
+
+% \caption{Frequencies of $d$ statistic for German Lotto}
+% \centering
+% \begin{tabular}[t]{c|lllllll}
+% % \toprule
+% d & 1 & 2 & 3 & 4 & 5 & 6 & 7 and 8\\
+% \hline
+% Expected & 2310.596 & 1266.76 & 639.888 & 290.255 & 113.59 & 35.858 & 9.025\\
+% Observed & 2383 & 1247 & 615 & 273 & 105 & 35 & 8\\
+% % \bottomrule
+% \end{tabular}
+% \label{tab:frequencies}
+% \end{table}
+
+\subsection{The test statistic}
+
+The $\chi^2$ goodness-of-fit test tests how well an expected discrete distribution fits
+an observed discrete distribution. Under $H_0$, each 
+lottery drawing is independent, which is a requirement for this test~\cite{openintrostats}. We combined the counts of adjacent categories when necessary to satisfy this rule of thumb for usage of the 
+$\chi^2$ goodness-of-fit test: the expected frequency in each bin must be $\geq 5$~\cite{Drakakis}.
+
+We define the $\chi^2$ statistic as follows: let $O_i$ be the observed frequency of category $i$, and $E_i$ be the expected frequency. Then, for our data,
+
+\begin{equation}
+    \chi^2 = \sum_{i=1}^p \frac{(O_i - E_i)^2}{E_i} \sim \chi^2 (p - 1)
+\end{equation}
+
+We use $p - 1$
+because we estimated no parameters from our data~\cite{Drakakis}.
+
+\subsection{Results}
+
+For the German Lotto, we computed $\chi^2_6 = 5.357 $, with a p-value of $0.498$. For the NY Quick Draw, we computed $\chi^2_1 = 1.407$, with a p-value of $0.235$. These results are not significant at $\alpha = 0.05$ or 
+any other common significance level. For both lotteries, the distribution of $d$ looks like a typical
+distribution for a fair lottery. We do not suspect
+human tampering from these results.
+
+\subsection{Discussion}
+
+We considered testing the goodness-of-fit of the frequency of the drawn numbers to a discrete uniform distribution, but the lottery numbers
+are not independent: the numbers are sampled without replacement,
+so they are multivariate hypergeometric under $H_0$. Thus, their frequencies have non-zero covariance~\cite{siegrist}. This also means sequences of lottery numbers will not be truly random.
+
+Testing the distributions of other statistics, such as the sum of a lottery drawing, could provide additional insight into the fairness of the lottery, and into which numbers a player might choose. We provide an implementation of this test.
+
+This analysis is appropriate for detecting human-generated lottery 
+numbers, but it is unknown how well it will more sophisticated forms of unfairness, i.e. non-uniform sampling.

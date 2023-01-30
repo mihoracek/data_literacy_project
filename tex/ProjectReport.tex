@@ -59,11 +59,9 @@
 
 \begin{abstract}
     We investigate the uniformity of various lotteries. 
-    First, we test the null hypothesis that, for the German Lotto, the distribution of the minimum distance between
-    lottery numbers, $d$, is as it would be in a uniformly sampled lottery. The $\chi^2_6$ goodness-of-fit
-    test resulted in a p-value of $0.4989$.
-    Furthermore, to evaluate the randomness of the random number generators underlying different lotteries,
-    we apply the Diehard battery of tests \todo{with the following results}.
+    To detect potential tampering for both the German Lotto and New York Quick Draw lottery, we test the null hypothesis that the distribution of the minimum distance between
+    lottery numbers, $d$, is as it would be in a uniformly sampled lottery.
+    Furthermore, we evaluate lottery as a random number generator using the Diehard battery of tests.
 \end{abstract}
 
 \section{Introduction}
@@ -74,13 +72,9 @@
 \label{sec:dataset}
 \input{dataset.tex}
 
-\section{Methods}
-\label{sec:methods}
-\input{methods.tex}
-
-% \section{Results}
-% \label{sec:results}
-% \input{results.tex}
+\section{Distribution testing}
+\label{sec:distribution_testing}
+\input{distribution_testing.tex}
 
 \section{Diehard tests}
 \label{sec:diehard}
